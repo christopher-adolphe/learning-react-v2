@@ -1,41 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
+import NewExpense from './components/newExpense/NewExpense';
 import Expenses from './components/expenses/Expenses';
 
-const App = () => {
-  const expenses = [
-    {
-      id: 'e1',
-      title: 'Toilet Paper',
-      amount: 94.12,
-      date: new Date(2020, 7, 14),
-    },
-    {
-      id: 'e2',
-      title: 'New TV',
-      amount: 799.49,
-      date: new Date(2021, 2, 12)
-    },
-    {
-      id: 'e3',
-      title: 'Car Insurance',
-      amount: 294.67,
-      date: new Date(2021, 2, 28),
-    },
-    {
-      id: 'e4',
-      title: 'New Desk (Wooden)',
-      amount: 450,
-      date: new Date(2021, 5, 12),
-    },
-  ];
-  
-  // return (
-  //   <div>
-  //     <h1>Let's get started</h1>
+const expensesData = [
+  {
+    id: 'e1',
+    title: 'Toilet Paper',
+    amount: 94.12,
+    date: new Date(2020, 7, 14),
+  },
+  {
+    id: 'e2',
+    title: 'New TV',
+    amount: 799.49,
+    date: new Date(2021, 2, 12)
+  },
+  {
+    id: 'e3',
+    title: 'Car Insurance',
+    amount: 294.67,
+    date: new Date(2021, 2, 28),
+  },
+  {
+    id: 'e4',
+    title: 'New Desk (Wooden)',
+    amount: 450,
+    date: new Date(2021, 5, 12),
+  },
+];
 
-  //     <Expenses items={ expenses } />
-  //   </div>
-  // );
+const App = () => {
+  const [ expenses, setExpenses ] = useState(expensesData);
 
   // Using `createElement()` method from React to demonstrate how
   // JSX is working under the hood to render the HTML elements of
@@ -50,11 +45,29 @@ const App = () => {
   // element when using the JSX syntax is because under the hood, for
   // every component, React is returning the result of `createElement()`
   // method and we can return only on thing at a time
-  return React.createElement(
-    'div',
-    {},
-    React.createElement('h1', { className: 'test'}, 'Let\'s get started'),
-    React.createElement(Expenses, { items: expenses }, )
+
+  // return React.createElement(
+  //   'div',
+  //   {},
+  //   React.createElement('h1', { className: 'test'}, 'Let\'s get started'),
+  //   React.createElement(Expenses, { items: expenses }, )
+  // );
+
+  const handleNewExpense = (expense) => {
+    const expensesData = [ ...expenses ];
+    const newExpense = { ...expense, id: `e${expensesData.length + 1}` };
+
+    expensesData.push(newExpense);
+    console.log('expensesData: ', expensesData)
+    setExpenses(expensesData);
+  };
+
+  return (
+    <div>
+      <NewExpense onNewExpense={ handleNewExpense } />
+
+      <Expenses items={ expenses } />
+    </div>
   );
 }
 

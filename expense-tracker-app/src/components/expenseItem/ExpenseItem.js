@@ -9,7 +9,7 @@ const ExpenseItem = ({ expenseDate, expenseTitle, expensePrice }) => {
     <Fragment>
       <ExpenseDate date={ expenseDate } />
       <div className="expense-item__description">
-        <h2>{ expenseTitle}</h2>
+        <h2>{ expenseTitle }</h2>
         <div className="expense-item__price">${ expensePrice }</div>
       </div>
     </Fragment>

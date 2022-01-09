@@ -1,16 +1,18 @@
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import ExpenseDate from './ExpenseDate';
+import WithCard from '../shared/card/WithCard';
+import ExpenseDate from '../expensDate/ExpenseDate';
 import './ExpenseItem.css';
 
-function ExpenseItem({ expenseDate, expenseTitle, expensePrice }) {
+const ExpenseItem = ({ expenseDate, expenseTitle, expensePrice }) => {
   return (
-    <div className="expense-item">
+    <Fragment>
       <ExpenseDate date={ expenseDate } />
       <div className="expense-item__description">
         <h2>{ expenseTitle}</h2>
         <div className="expense-item__price">${ expensePrice }</div>
       </div>
-    </div>
+    </Fragment>
   );
 }
 
@@ -20,4 +22,4 @@ ExpenseItem.propTypes = {
   expensePrice: PropTypes.number.isRequired
 };
 
-export default ExpenseItem;
+export default WithCard(ExpenseItem);

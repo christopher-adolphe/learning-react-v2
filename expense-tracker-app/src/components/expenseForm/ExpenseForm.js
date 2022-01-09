@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import './ExpenseForm.css';
 
-function ExpenseForm(props) {
+function ExpenseForm({ onAddExpense }) {
   const [ formData, setFormData ] = useState({ title: '', amount: '', date: '' });
 
   const handleInputChange = (event) => {
@@ -14,17 +15,18 @@ function ExpenseForm(props) {
 
     // Instead of passing the updated state directly to the `setFormData()`
     // updating function, we pass an anonymous function which will receive
-    // the latest previous state snapshot which will provided by React. This 
-    // anonymous function can then return the updated state to the `setFormData()`
+    // the latest previous state snapshot provided by React. This anonymous
+    // function can then return the updated state to the `setFormData()`
     // function
     setFormData((prevState) => ({ ...prevState, [path]: value }));
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    const newExpense = { ...formData, amount: parseFloat(formData.amount), date: new Date(formData.date) };
 
-    console.log('handleSubmit called: ', event);
-    console.log('FormData: ', formData);
+    onAddExpense(newExpense);
+    setFormData({ title: '', amount: '', date: '' });
   };
 
   return (
@@ -52,5 +54,9 @@ function ExpenseForm(props) {
     </form>
   );
 }
+
+ExpenseForm.propTypes = {
+  onAddExpense: PropTypes.func.isRequired
+};
 
 export default ExpenseForm;

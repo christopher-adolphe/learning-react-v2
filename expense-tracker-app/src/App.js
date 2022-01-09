@@ -1,34 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 import NewExpense from './components/newExpense/NewExpense';
 import Expenses from './components/expenses/Expenses';
 
+const expensesData = [
+  {
+    id: 'e1',
+    title: 'Toilet Paper',
+    amount: 94.12,
+    date: new Date(2020, 7, 14),
+  },
+  {
+    id: 'e2',
+    title: 'New TV',
+    amount: 799.49,
+    date: new Date(2021, 2, 12)
+  },
+  {
+    id: 'e3',
+    title: 'Car Insurance',
+    amount: 294.67,
+    date: new Date(2021, 2, 28),
+  },
+  {
+    id: 'e4',
+    title: 'New Desk (Wooden)',
+    amount: 450,
+    date: new Date(2021, 5, 12),
+  },
+];
+
 const App = () => {
-  const expenses = [
-    {
-      id: 'e1',
-      title: 'Toilet Paper',
-      amount: 94.12,
-      date: new Date(2020, 7, 14),
-    },
-    {
-      id: 'e2',
-      title: 'New TV',
-      amount: 799.49,
-      date: new Date(2021, 2, 12)
-    },
-    {
-      id: 'e3',
-      title: 'Car Insurance',
-      amount: 294.67,
-      date: new Date(2021, 2, 28),
-    },
-    {
-      id: 'e4',
-      title: 'New Desk (Wooden)',
-      amount: 450,
-      date: new Date(2021, 5, 12),
-    },
-  ];
+  const [ expenses, setExpenses ] = useState(expensesData);
 
   // Using `createElement()` method from React to demonstrate how
   // JSX is working under the hood to render the HTML elements of
@@ -51,9 +53,18 @@ const App = () => {
   //   React.createElement(Expenses, { items: expenses }, )
   // );
 
+  const handleNewExpense = (expense) => {
+    const expensesData = [ ...expenses ];
+    const newExpense = { ...expense, id: `e${expensesData.length + 1}` };
+
+    expensesData.push(newExpense);
+    console.log('expensesData: ', expensesData)
+    setExpenses(expensesData);
+  };
+
   return (
     <div>
-      <NewExpense />
+      <NewExpense onNewExpense={ handleNewExpense } />
 
       <Expenses items={ expenses } />
     </div>

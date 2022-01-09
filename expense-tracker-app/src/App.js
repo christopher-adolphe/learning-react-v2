@@ -1,4 +1,5 @@
 import React from 'react';
+import NewExpense from './components/newExpense/NewExpense';
 import Expenses from './components/expenses/Expenses';
 
 const App = () => {
@@ -28,14 +29,6 @@ const App = () => {
       date: new Date(2021, 5, 12),
     },
   ];
-  
-  // return (
-  //   <div>
-  //     <h1>Let's get started</h1>
-
-  //     <Expenses items={ expenses } />
-  //   </div>
-  // );
 
   // Using `createElement()` method from React to demonstrate how
   // JSX is working under the hood to render the HTML elements of
@@ -50,11 +43,20 @@ const App = () => {
   // element when using the JSX syntax is because under the hood, for
   // every component, React is returning the result of `createElement()`
   // method and we can return only on thing at a time
-  return React.createElement(
-    'div',
-    {},
-    React.createElement('h1', { className: 'test'}, 'Let\'s get started'),
-    React.createElement(Expenses, { items: expenses }, )
+
+  // return React.createElement(
+  //   'div',
+  //   {},
+  //   React.createElement('h1', { className: 'test'}, 'Let\'s get started'),
+  //   React.createElement(Expenses, { items: expenses }, )
+  // );
+
+  return (
+    <div>
+      <NewExpense />
+
+      <Expenses items={ expenses } />
+    </div>
   );
 }
 

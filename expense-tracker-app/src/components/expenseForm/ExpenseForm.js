@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import './ExpenseForm.css';
 
-function ExpenseForm({ onAddExpense }) {
+function ExpenseForm({ onAddExpense, onCancelExpense }) {
   const [ formData, setFormData ] = useState({ title: '', amount: '', date: '' });
 
   const handleInputChange = (event) => {
@@ -49,6 +49,7 @@ function ExpenseForm({ onAddExpense }) {
       </div>
 
       <div className="new-expense__actions">
+        <button type="buttton" onClick={ onCancelExpense }>Cancel</button>
         <button type="submit">Add Expense</button>
       </div>
     </form>
@@ -56,7 +57,8 @@ function ExpenseForm({ onAddExpense }) {
 }
 
 ExpenseForm.propTypes = {
-  onAddExpense: PropTypes.func.isRequired
+  onAddExpense: PropTypes.func.isRequired,
+  onCancelExpense: PropTypes.func.isRequired
 };
 
 export default ExpenseForm;

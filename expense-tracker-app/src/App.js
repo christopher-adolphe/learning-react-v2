@@ -54,12 +54,9 @@ const App = () => {
   // );
 
   const handleNewExpense = (expense) => {
-    const expensesData = [ ...expenses ];
     const newExpense = { ...expense, id: `e${expensesData.length + 1}` };
 
-    expensesData.push(newExpense);
-    console.log('expensesData: ', expensesData)
-    setExpenses(expensesData);
+    setExpenses((prevExpenses) => [ newExpense, ...prevExpenses]);
   };
 
   return (

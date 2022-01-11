@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Card from '../shared/card/Card';
 import ExpenseItem from '../expenseItem/ExpenseItem';
 import ExpensesFilter from '../expensesFilter/ExpensesFilter';
+import Chart from '../chart/Chart';
 import './Expenses.css';
 
 const Expenses = ({ items }) => {
@@ -16,29 +17,41 @@ const Expenses = ({ items }) => {
       return;
     }
 
-    const filteredExpenses = expenseItems.filter(item => item.date.getFullYear().toString() === year);
+    const filteredExpenses = items.filter(item => item.date.getFullYear().toString() === year);
     
     setFilterMessage(filteredExpenses.length ? '' : `Sorry we could not find any expense for the year ${year}`);
-    setExpenseItems(filteredExpenses.length ? filteredExpenses : items);
+    setExpenseItems(filteredExpenses);
   };
 
   useEffect(() => {
     setExpenseItems(items);
+    setFilterMessage('');
   }, [items]);
 
   return (
     <Card className="expenses">
       <ExpensesFilter onYearChange={ handleYearChange } />
 
+      <Chart chartData={ expenseItems } />
+
       {
         filterMessage.length ? <p className="expenses__message">{ filterMessage }</p> : null
       }
-      
+
+      <ul className="expenses-list">
       {
         expenseItems.map(expense => (
-          <ExpenseItem className="expense-item" key={ expense.id } expenseDate={ expense.date } expenseTitle={ expense.title } expensePrice={ expense.amount } />
+          <li key={ expense.id }>
+            <ExpenseItem
+              className="expense-item"
+              expenseDate={ expense.date }
+              expenseTitle={ expense.title }
+              expensePrice={ expense.amount }
+            />
+          </li>
         ))
       }
+      </ul>
     </Card>
   );
 }

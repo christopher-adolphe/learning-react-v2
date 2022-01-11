@@ -7,7 +7,13 @@
 }
 
 .expenses__message {
+  margin-bottom: 0.5rem;
   font-weight: bold;
   color: #ffffff;
   text-align: center;
+}
+
+.expenses-list {
+  list-style: none;
+  padding: 0;
 }

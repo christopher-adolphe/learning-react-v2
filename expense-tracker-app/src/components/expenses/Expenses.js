@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Card from '../shared/card/Card';
 import ExpenseItem from '../expenseItem/ExpenseItem';
 import ExpensesFilter from '../expensesFilter/ExpensesFilter';
+import Chart from '../chart/Chart';
 import './Expenses.css';
 
 const Expenses = ({ items }) => {
@@ -19,7 +20,7 @@ const Expenses = ({ items }) => {
     const filteredExpenses = items.filter(item => item.date.getFullYear().toString() === year);
     
     setFilterMessage(filteredExpenses.length ? '' : `Sorry we could not find any expense for the year ${year}`);
-    setExpenseItems(filteredExpenses.length ? filteredExpenses : items);
+    setExpenseItems(filteredExpenses);
   };
 
   useEffect(() => {
@@ -30,6 +31,8 @@ const Expenses = ({ items }) => {
   return (
     <Card className="expenses">
       <ExpensesFilter onYearChange={ handleYearChange } />
+
+      <Chart chartData={ expenseItems } />
 
       {
         filterMessage.length ? <p className="expenses__message">{ filterMessage }</p> : null

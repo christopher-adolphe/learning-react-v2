@@ -18,7 +18,9 @@ function NewExpense({ onNewExpense }) {
   return (
     <div className="new-expense">
       {
-        isFormVisible ? <ExpenseForm onAddExpense={ handleAddExpense } onCancelExpense={ handleFormVisibility } /> : <button type="button" onClick={ handleFormVisibility }>Add New Expense</button>
+        isFormVisible
+          ? <ExpenseForm onAddExpense={ handleAddExpense } onCancelExpense={ handleFormVisibility } />
+          : <button type="button" onClick={ handleFormVisibility }>Add New Expense</button>
       }
     </div>
   );

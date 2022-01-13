@@ -4,7 +4,7 @@ import WithCard from '../shared/WithCard/WithCard';
 import Button from '../shared/Button/Button';
 import styles from './UserForm.module.css';
 
-function UserForm({ onHandleAddUser }) {
+function UserForm({ onHandleAddUser, onHandleError }) {
   const [ formData, setFormData ] = useState({ username: '', age: '' });
 
   const handleInputChange = (event) => {
@@ -16,10 +16,23 @@ function UserForm({ onHandleAddUser }) {
   const addUser = (event) => {
     event.preventDefault();
 
-    // if (!value.trim().length) {
-    //   // Show validation modal
-    //   return;
-    // }
+    if (!formData.username.trim().length) {
+      onHandleError('Please enter a valid username!');
+
+      return;
+    }
+    
+    if (!formData.age.trim().length) {
+      onHandleError('Please enter a valid age!');
+
+      return;
+    }
+    
+    if (parseInt(formData.age) <= 0) {
+      onHandleError('Please enter a valid age! Cannot be less than zero.');
+
+      return;
+    }
 
     const newUser = { name: formData.username.trim(), age: formData.age };
 
@@ -45,7 +58,8 @@ function UserForm({ onHandleAddUser }) {
 }
 
 UserForm.propTypes = {
-  onHandleAddUser: PropTypes.func.isRequired
+  onHandleAddUser: PropTypes.func.isRequired,
+  onHandleError: PropTypes.func.isRequired
 };
 
 export default WithCard(UserForm);

@@ -6,11 +6,13 @@ import styles from './UserForm.module.css';
 
 function UserForm({ onHandleAddUser, onHandleError }) {
   const [ formData, setFormData ] = useState({ username: '', age: '' });
+  const [ formError, setFormError ] = useState({ username: '', age: '' });
 
   const handleInputChange = (event) => {
     const { value, id: path } = event.target;
 
     setFormData((prevState) => ({ ...prevState, [path]: value }));
+    setFormError((prevState) => ({ ...prevState, [path]: '' }));
   };
 
   const addUser = (event) => {
@@ -18,18 +20,21 @@ function UserForm({ onHandleAddUser, onHandleError }) {
 
     if (!formData.username.trim().length) {
       onHandleError('Please enter a valid username!');
+      setFormError((prevState) => ({ ...prevState, username: 'invalid' }));
 
       return;
     }
     
     if (!formData.age.trim().length) {
       onHandleError('Please enter a valid age!');
+      setFormError((prevState) => ({ ...prevState, age: 'invalid' }));
 
       return;
     }
     
     if (parseInt(formData.age) <= 0) {
       onHandleError('Please enter a valid age! Cannot be less than zero.');
+      setFormError((prevState) => ({ ...prevState, age: 'invalid' }));
 
       return;
     }
@@ -38,16 +43,17 @@ function UserForm({ onHandleAddUser, onHandleError }) {
 
     onHandleAddUser(newUser);
     setFormData({ username: '', age: '' });
+    setFormError({ username: '', age: '' })
   };
 
   return (
     <form onSubmit={ addUser }>
-      <div className={ styles['form-control'] }>
+      <div className={ formError.username !== 'invalid' ? styles['form-control'] : `${styles['form-control']} ${styles.invalid}` }>
         <label htmlFor="usename">Username</label>
         <input id="username" type="text" value={ formData.username } onChange={ handleInputChange } />
       </div>
 
-      <div className={ styles['form-control'] }>
+      <div className={ formError.age !== 'invalid' ? styles['form-control'] : `${styles['form-control']} ${styles.invalid}` }>
         <label htmlFor="age">Age</label>
         <input id="age" type="number" value={ formData.age } onChange={ handleInputChange } />
       </div>

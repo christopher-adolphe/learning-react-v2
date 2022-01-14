@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import WithCard from '../shared/WithCard/WithCard';
+
+import { WithCard } from '../shared';
 import UserItem from '../UserItem/UserItem';
 import styles from './UserList.module.css';
 

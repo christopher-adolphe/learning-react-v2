@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import WithCard from '../shared/WithCard/WithCard';
-import Button from '../shared/Button/Button';
+
+import { Button, WithCard } from '../shared';
 import styles from './UserForm.module.css';
 
 function UserForm({ onHandleAddUser, onHandleError }) {
@@ -15,7 +15,7 @@ function UserForm({ onHandleAddUser, onHandleError }) {
     setFormError((prevState) => ({ ...prevState, [path]: '' }));
   };
 
-  const addUser = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
 
     if (!formData.username.trim().length) {
@@ -32,8 +32,8 @@ function UserForm({ onHandleAddUser, onHandleError }) {
       return;
     }
     
-    if (parseInt(formData.age) <= 0) {
-      onHandleError('Please enter a valid age! Cannot be less than zero.');
+    if (+formData.age < 1) {
+      onHandleError('Please enter a valid age! Cannot be less than one.');
       setFormError((prevState) => ({ ...prevState, age: 'invalid' }));
 
       return;
@@ -47,7 +47,7 @@ function UserForm({ onHandleAddUser, onHandleError }) {
   };
 
   return (
-    <form onSubmit={ addUser }>
+    <form onSubmit={ handleSubmit }>
       <div className={ formError.username !== 'invalid' ? styles['form-control'] : `${styles['form-control']} ${styles.invalid}` }>
         <label htmlFor="usename">Username</label>
         <input id="username" type="text" value={ formData.username } onChange={ handleInputChange } />

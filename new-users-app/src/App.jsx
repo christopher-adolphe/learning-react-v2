@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
-import UserForm from './components/UserForm/UserForm';
-import UserList from './components/UserList/UserList';
-import Modal from './components/Modal/Modal';
+
+import { UserForm, UserList, Modal } from './components';
 import styles from './App.module.css';
 
 function App() {
   const [ users, setUsers ] = useState([]);
-  const [ isModalVisible, setIsModalVisible ] = useState(false);
-  const [ modalBody, setModalBody ] = useState('');
+  const [ modalOptions, setModalOptions ] = useState({ body: '', isVisible: false });
 
   const handleAddUser = (user) => {
     const newUser = { ...user, id: `u-${Math.random().toString()}`};
@@ -20,13 +18,11 @@ function App() {
   };
 
   const handleShowModal = (error) => {
-    setModalBody(error);
-    setIsModalVisible(true);
+    setModalOptions({ body: error, isVisible: true });
   };
 
   const handleHideModal = () => {
-    setModalBody('');
-    setIsModalVisible(false);
+    setModalOptions({ body: '', isVisible: false });
   };
 
   return (
@@ -35,7 +31,7 @@ function App() {
 
       <UserList items= { users } onHandleDeleteUser={ handleDeleteUser } />
 
-      <Modal title="Invalid Input" body={ modalBody } buttonLabel="Okay" isVisible={ isModalVisible } onDismiss={ handleHideModal } />
+      <Modal title="Invalid Input" body={ modalOptions.body } buttonLabel="Okay" isVisible={ modalOptions.isVisible } onDismiss={ handleHideModal } />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import Button from '../shared/Button/Button';
+
+import { Button } from '../shared';
 import styles from './Modal.module.css';
 
 function Modal({ title, body, buttonLabel, isVisible = false, onDismiss }) {

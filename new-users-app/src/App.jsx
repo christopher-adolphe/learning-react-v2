@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ReactDOM from 'react-dom'
 
 import { UserForm, UserList, Modal } from './components';
 import styles from './App.module.css';
@@ -31,7 +32,14 @@ function App() {
 
       <UserList items= { users } onHandleDeleteUser={ handleDeleteUser } />
 
-      <Modal title={ modalOptions.title } body={ modalOptions.body } buttonLabel="Okay" isVisible={ modalOptions.isVisible } onDismiss={ handleHideModal } />
+      {/* Using the `createPortal()` method from react-dom to render the Modal component */}
+      {/* at a specified location in the DOM; i.e the `modal-root` div element */}
+      {
+        ReactDOM.createPortal(
+          <Modal title={ modalOptions.title } body={ modalOptions.body } buttonLabel="Okay" isVisible={ modalOptions.isVisible } onDismiss={ handleHideModal } />,
+          document.getElementById('modal-root')
+        )
+      }
     </div>
   );
 }

@@ -5,7 +5,7 @@ import styles from './App.module.css';
 
 function App() {
   const [ users, setUsers ] = useState([]);
-  const [ modalOptions, setModalOptions ] = useState({ body: '', isVisible: false });
+  const [ modalOptions, setModalOptions ] = useState({ title: '', body: '', isVisible: false });
 
   const handleAddUser = (user) => {
     const newUser = { ...user, id: `u-${Math.random().toString()}`};
@@ -17,12 +17,12 @@ function App() {
     setUsers((prevState) => prevState.filter(user => user.id !== id));
   };
 
-  const handleShowModal = (error) => {
-    setModalOptions({ body: error, isVisible: true });
+  const handleShowModal = ({ title, body }) => {
+    setModalOptions({ title, body, isVisible: true });
   };
 
   const handleHideModal = () => {
-    setModalOptions({ body: '', isVisible: false });
+    setModalOptions({ title: '', body: '', isVisible: false });
   };
 
   return (
@@ -31,7 +31,7 @@ function App() {
 
       <UserList items= { users } onHandleDeleteUser={ handleDeleteUser } />
 
-      <Modal title="Invalid Input" body={ modalOptions.body } buttonLabel="Okay" isVisible={ modalOptions.isVisible } onDismiss={ handleHideModal } />
+      <Modal title={ modalOptions.title } body={ modalOptions.body } buttonLabel="Okay" isVisible={ modalOptions.isVisible } onDismiss={ handleHideModal } />
     </div>
   );
 }

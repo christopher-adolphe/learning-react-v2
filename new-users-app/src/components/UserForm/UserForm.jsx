@@ -19,21 +19,21 @@ function UserForm({ onHandleAddUser, onHandleError }) {
     event.preventDefault();
 
     if (!formData.username.trim().length) {
-      onHandleError('Please enter a valid username!');
+      onHandleError({ title: 'Invalid Username', body: 'Please enter a valid username!' });
       setFormError((prevState) => ({ ...prevState, username: 'invalid' }));
 
       return;
     }
     
     if (!formData.age.trim().length) {
-      onHandleError('Please enter a valid age!');
+      onHandleError({ title: 'Invalid Age ', body: 'Please enter a valid age!' });
       setFormError((prevState) => ({ ...prevState, age: 'invalid' }));
 
       return;
     }
     
     if (+formData.age < 1) {
-      onHandleError('Please enter a valid age! Cannot be less than one.');
+      onHandleError({ title: 'Invalid Age', body: 'Please enter a valid age! Cannot be less than one.' });
       setFormError((prevState) => ({ ...prevState, age: 'invalid' }));
 
       return;

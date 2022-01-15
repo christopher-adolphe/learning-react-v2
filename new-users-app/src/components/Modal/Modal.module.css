@@ -1,24 +1,11 @@
 .modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100vh;
-  background-color: rgba(18, 19, 20, 0.5);
-  z-index: 1050;
-}
-
-.modal__dialog {
-  display: flex;
-  flex-direction: column;
   width: 100%;
   max-width: 500px;
 }
 
 .modal__content {
+  display: flex;
+  flex-direction: column;
   background-color: #fff;
   border-radius: 12px;
 }

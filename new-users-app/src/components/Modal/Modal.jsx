@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import { Button } from '../shared';
+import { Button, Backdrop } from '../shared';
 import styles from './Modal.module.css';
 
 function Modal({ title, body, buttonLabel, isVisible = false, onDismiss }) {
@@ -20,8 +20,8 @@ function Modal({ title, body, buttonLabel, isVisible = false, onDismiss }) {
     <Fragment>
       {
         isModalVisible ? (
-          <div className={ styles.modal } onClick={ handleDismissModal } >
-            <div className={ styles['modal__dialog'] }>
+          <Backdrop onDismiss={ handleDismissModal }>
+            <div className={ styles.modal } onClick={ handleDismissModal } >
               <div className={ styles['modal__content'] }>
                 <div className={ styles['modal__header'] }>
                   <h3>{ title }</h3>
@@ -36,7 +36,7 @@ function Modal({ title, body, buttonLabel, isVisible = false, onDismiss }) {
                 </div>
               </div>
             </div>
-          </div>
+          </Backdrop>
         ) : null
       }
     </Fragment>

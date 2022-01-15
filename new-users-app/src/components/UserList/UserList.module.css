@@ -1,0 +1,14 @@
+.user-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.user-list__item:not(:last-child) {
+  margin-bottom: 1.5rem;
+}
+
+.user-list__message {
+  text-align: center;
+  font-weight: bold;
+}

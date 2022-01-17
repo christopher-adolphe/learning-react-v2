@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect, useReducer, useContext } from 'react';
 
+import AuthContext from '../../context/auth-context';
 import Card from '../UI/Card/Card';
 import classes from './Login.module.css';
 import Button from '../UI/Button/Button';
@@ -37,6 +38,7 @@ const passwordReducer = (state, action) => {
 };
 
 const Login = (props) => {
+  const authContext = useContext(AuthContext);
   // const [enteredEmail, setEnteredEmail] = useState('');
   // const [emailIsValid, setEmailIsValid] = useState();
   // const [enteredPassword, setEnteredPassword] = useState('');
@@ -74,10 +76,10 @@ const Login = (props) => {
 
   // Extracting the `isValid` properties from the `emailState` and `passwordState`
   // to optimize the `useEffect()` hook such that it's dependency array does not
-  // rely on either the `emailState` and `passwordState` objects but only on their
-  // respective `isValid` key. Therefore with this approach, we are make sure that
-  // we set the `useEffect()` hook dependencies with the part of the state it exactly
-  // relies on
+  // rely on either the `emailState` and `passwordState` objects entirely but only on
+  // their respective `isValid` key. Therefore with this approach, we are making sure
+  // that we set the `useEffect()` hook dependencies with the part of the state it 
+  // exactly relies on
   const { isValid: isEmailValid } = emailState;
   const { isValid: isPasswordValid } = passwordState;
 
@@ -120,7 +122,7 @@ const Login = (props) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    props.onLogin(emailState.value, passwordState.value);
+    authContext.onLogin(emailState.value, passwordState.value);
   };
 
   return (

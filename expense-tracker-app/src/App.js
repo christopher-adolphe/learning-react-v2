@@ -30,6 +30,8 @@ const expensesData = [
 ];
 
 const App = () => {
+  // Using the `useState()` hook to return a stateful value and a function to
+  // update it. The `useState()` hook can take an initial value as argument.
   const [ expenses, setExpenses ] = useState(expensesData);
 
   // Using `createElement()` method from React to demonstrate how

@@ -1,0 +1,61 @@
+.header {
+  width: 100%;
+  height: 3.75rem;
+  background-color: #fecd2b;
+  color: #1a1a1a;
+}
+
+.header__brand {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.header__brand > svg {
+  margin-right: 0.5rem;
+}
+
+.header__navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: calc(100% - 2rem);
+  height: 100%;
+  margin: 0 1rem;
+  padding: 0.5rem 0;
+}
+
+.header__hero {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 25rem;
+  background: url('../../assets/images/bg-hero.jpg') center center no-repeat;
+  background-size: cover;
+  color: #fefefa;
+  overflow: hidden;
+}
+
+.header__hero-content {
+  position: relative;
+  width: 100%;
+  max-width: 37.5rem;
+  padding: 0 1rem;
+  text-align: center;
+  z-index: 10;
+}
+
+.header__hero-shader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 25rem;
+  background-color: #1a1a1a;
+  z-index: 1;
+  opacity: 0.25;
+}

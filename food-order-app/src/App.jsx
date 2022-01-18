@@ -1,10 +1,16 @@
-import { FiSmile } from "react-icons/fi";
+import { Header, Footer } from './partials';
+import { Home } from './pages';
+
 import styles from './App.module.css';
 
 function App() {
   return (
-    <div className="App">
-      <h1><FiSmile color="#202124" /> Happy Meals</h1>
+    <div className={ styles.app }>
+      <Header />
+
+      <Home />
+
+      <Footer />
     </div>
   );
 }

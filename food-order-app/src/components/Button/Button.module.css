@@ -1,0 +1,44 @@
+.button {
+  width: 100%;
+  font: inherit;
+  padding: 0.5rem 1.5rem;
+  border: 1px solid transparent;
+  border-radius: 1.75rem;
+  color: #1a1a1a;
+  background-color: #01e2c2;
+  cursor: pointer;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: all 0.5s ease-in-out;
+}
+
+.button--bordered {
+  border: 1px solid #01e2c2;
+  background-color: #f8f9fc;
+}
+
+.button:focus {
+  outline: none;
+}
+
+.button:hover,
+.button:active {
+  background-color: #95e8db;
+  border-color: #01e2c2;
+}
+
+.button--bordered:hover,
+.button--bordered:active {
+  background-color: #95e8db;
+  border-color: #01e2c2;
+}
+
+.button svg {
+  margin-right: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .button {
+    width: auto;
+  }
+}

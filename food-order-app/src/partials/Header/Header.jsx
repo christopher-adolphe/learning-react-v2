@@ -1,5 +1,7 @@
 import React from 'react';
-import { FiSmile } from 'react-icons/fi';
+import { FiSmile, FiShoppingBag } from 'react-icons/fi';
+
+import { Button } from '../../components';
 
 import styles from './Header.module.css';
 
@@ -8,6 +10,8 @@ function Header(props) {
     <header className={ styles.header }>
       <div className={ styles['header__navbar'] }>
         <span className={ styles['header__brand'] }><FiSmile color="#202124" /> Happy Meals</span>
+
+        <Button><FiShoppingBag />Your Cart</Button>
       </div>
 
       <div className={ styles['header__hero'] }>

@@ -1,16 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { MealList } from '../../components';
+import { getMeals } from '../../services/fakeMealService';
 
-const meals = [
-  { id: 'm-1', title: 'Meal 1' },
-  { id: 'm-2', title: 'Meal 2' },
-]
 
-function Home(props) {
+function Home() {
+  const [ meals, setMeals ] = useState([]);
+
+  useEffect(() => {
+    setMeals(getMeals());
+  }, []);
+
   return (
     <main>
-      <h2>Home Component</h2>
+      <h2>Most Popular Meals</h2>
 
       <MealList items={ meals } />
     </main>

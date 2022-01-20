@@ -1,5 +1,6 @@
 .meal {
   width: 100%;
+  padding: 1.5rem;
 }
 
 .meal__list {
@@ -8,8 +9,22 @@
   list-style: none;
 }
 
-.meal__list__item:not(:last-child) {
+.meal__list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  padding: 1.5rem 1rem;
+  background-color: transparent;
+  transition: background-color 0.35s ease-in;
+}
+
+.meal__list-item:hover {
+  background-color: #f0f0f0;
+}
+
+.meal__list-item:not(:last-child) {
   margin-bottom: 1.5rem;
+  border-bottom: 1px solid #e5e5e5;
 }
 
 .meal__message {

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import WithCard from '../WithCard/WithCard';
+import { MealItem, AddToCart } from '..';
 
 import styles from './MealList.module.css';
 
@@ -12,7 +13,11 @@ function MealList({ items }) {
           ? (<ul className={ styles['meal__list'] }>
               {
                 items.map(meal => (
-                  <li key={ meal.id }>{ meal.title }</li>
+                  <li key={ meal._id } className={ styles['meal__list-item'] }>
+                    <MealItem meal={ meal } />
+
+                    <AddToCart meal={ meal } />
+                  </li>
                 ))
               }
             </ul>)

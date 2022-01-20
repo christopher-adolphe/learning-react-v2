@@ -1,17 +1,21 @@
 import React from 'react';
 import { FiSmile, FiShoppingBag } from 'react-icons/fi';
 
-import { Button } from '../../components';
+import { Button, Tag } from '../../components';
 
 import styles from './Header.module.css';
 
 function Header(props) {
+  const handleShowCart = () => {
+    console.log('handleShowCart called...');
+  };
+
   return (
     <header className={ styles.header }>
       <div className={ styles['header__navbar'] }>
-        <span className={ styles['header__brand'] }><FiSmile color="#202124" /> Happy Meals</span>
+        <span className={ styles['header__brand'] }><FiSmile color="#202124" size="1.75em" /> Happy Meals</span>
 
-        <Button><FiShoppingBag />Your Cart</Button>
+        <Button onHandleClick={ handleShowCart }><FiShoppingBag size="1.5em" />Your Cart<Tag /></Button>
       </div>
 
       <div className={ styles['header__hero'] }>

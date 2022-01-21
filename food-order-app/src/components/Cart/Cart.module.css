@@ -1,15 +1,14 @@
-.meal {
-  width: 100%;
-  padding: 1.25rem;
+.cart {
+
 }
 
-.meal__list {
-  margin: 0;
+.cart__list {
+  margin: 0 -1rem;
   padding: 0;
   list-style: none;
 }
 
-.meal__list-item {
+.cart__list-item {
   display: flex;
   justify-content: space-between;
   align-items: stretch;
@@ -18,15 +17,25 @@
   transition: background-color 0.35s ease-in;
 }
 
-.meal__list-item:hover {
+.cart__list-item:hover {
   background-color: #f0f0f0;
 }
 
-.meal__list-item:not(:last-child) {
+.cart__list-item:not(:last-child) {
   border-bottom: 1px solid #e5e5e5;
 }
 
-.meal__message {
-  text-align: center;
+.cart__total:hover {
+  background-color: transparent;
+}
+
+.cart__total-label,
+.cart__total-value {
   font-weight: bold;
+  font-size: 1.25rem;
+}
+
+.cart__message {
+  margin: 0;
+  text-align: center;
 }

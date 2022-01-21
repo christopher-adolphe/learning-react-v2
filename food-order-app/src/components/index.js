@@ -1,6 +1,8 @@
 export { default as AddToCart } from './AddToCart/AddToCart';
 export { default as Backdrop } from './Backdrop/Backdrop';
 export { default as Button } from './Button/Button';
+export { default as Cart } from './Cart/Cart';
+export { default as CartItem } from './CartItem/CartItem';
 export { default as Input } from './Input/Input';
 export { default as MealItem } from './MealItem/MealItem';
 export { default as MealList } from './MealList/MealList';

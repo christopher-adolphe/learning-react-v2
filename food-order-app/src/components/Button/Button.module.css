@@ -15,9 +15,8 @@
   transition: all 0.5s ease-in-out;
 }
 
-.button--bordered {
-  border: 1px solid #01e2c2;
-  background-color: #f8f9fc;
+.button svg {
+  margin-right: 0.75rem;
 }
 
 .button:focus {
@@ -30,18 +29,37 @@
   border-color: #01e2c2;
 }
 
-.button--bordered:hover,
-.button--bordered:active {
-  background-color: #95e8db;
-  border-color: #01e2c2;
+.button--bordered {
+  border: 1px solid #01e2c2;
+  background-color: #f8f9fc;
 }
 
-.button svg {
-  margin-right: 0.75rem;
+.button--icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0.5rem;
+  border: 1px solid #01e2c2;
+  background-color: #f8f9fc;
+}
+
+.button--icon svg {
+  margin-right: 0;
+}
+
+.button--bordered:hover,
+.button--bordered:active,
+.button--icon:hover,
+.button--icon:active {
+  background-color: #95e8db;
+  border-color: #01e2c2;
 }
 
 @media (min-width: 768px) {
   .button {
     width: auto;
+  }
+
+  .button--icon {
+    width: 2.5rem;
   }
 }

@@ -1,9 +1,9 @@
 .cart {
-
+  margin: 0 -1rem;
 }
 
 .cart__list {
-  margin: 0 -1rem;
+  margin: 0;
   padding: 0;
   list-style: none;
 }

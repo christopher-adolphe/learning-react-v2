@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { FiSmile, FiShoppingBag } from 'react-icons/fi';
+
+import AppContext from '../../context/AppContext';
 
 import { Button, Tag } from '../../components';
 
 import styles from './Header.module.css';
 
-function Header(props) {
+function Header() {
+  const { cart, onToggleModal } = useContext(AppContext);
+
   const handleShowCart = () => {
-    console.log('handleShowCart called...');
+    onToggleModal();
   };
 
   return (
@@ -15,7 +19,7 @@ function Header(props) {
       <div className={ styles['header__navbar'] }>
         <span className={ styles['header__brand'] }><FiSmile color="#202124" size="1.75em" /> Happy Meals</span>
 
-        <Button onHandleClick={ handleShowCart }><FiShoppingBag size="1.5em" />Your Cart<Tag /></Button>
+        <Button onHandleClick={ handleShowCart }><FiShoppingBag size="1.5em" />Your Cart<Tag count={ cart.length } /></Button>
       </div>
 
       <div className={ styles['header__hero'] }>

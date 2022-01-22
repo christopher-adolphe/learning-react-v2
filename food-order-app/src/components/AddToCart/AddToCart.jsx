@@ -1,15 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types'
 import { FiPlusCircle } from 'react-icons/fi';
+
+import AppContext from '../../context/AppContext';
 
 import { Button } from '..';
 
 import styles from './AddToCart.module.css';
 
 function AddToCart({ meal }) {
-  const handleAddToCart = (item) => {
-    console.log('handleAddToCart called...', item);
-  };
+  const { onAddItem } = useContext(AppContext);
+
+  // const handleAddToCart = (item) => {
+  //   console.log('handleAddToCart called...', item);
+  // };
 
   return (
     <div className={ styles['add-to-cart'] }>
@@ -19,7 +23,7 @@ function AddToCart({ meal }) {
       </div>
 
       <div className={ styles['add-to-cart__action'] }>
-        <Button onHandleClick={ () => handleAddToCart(meal) }><FiPlusCircle size="1.5em" /> Add</Button>
+        <Button onHandleClick={ () => onAddItem(meal) }><FiPlusCircle size="1.5em" /> Add</Button>
       </div>
     </div>
   );

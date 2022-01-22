@@ -1,5 +1,4 @@
 import React, { Fragment, useContext, useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { FiX } from 'react-icons/fi';
 
 import AppContext from '../../context/AppContext';
@@ -10,12 +9,11 @@ import styles from './Modal.module.css';
 
 
 function Modal({ children }) {
-  const { isModalVisible: contextIsModalVisible, onToggleModal } = useContext(AppContext);
+  const { isModalVisible: contextIsModalVisible, onToggleModal, onRemoveAll } = useContext(AppContext);
 
   const [ isModalVisible, setIsModalVisible ] = useState(contextIsModalVisible);
 
   useEffect(() => {
-    console.log('Running useEffect in Modal Component')
     setIsModalVisible(contextIsModalVisible);
   }, [contextIsModalVisible]);
 
@@ -26,11 +24,14 @@ function Modal({ children }) {
     onToggleModal();
   };
 
-  const handleClearCart = () => {
-    console.log('handleClearCart called...');
+  const handleClearCart = (event) => {
+    event.stopPropagation();
+
+    onRemoveAll();
   };
 
-  const handleOrderMeal = () => {
+  const handleOrderMeal = (event) => {
+    event.stopPropagation();
     console.log('handleOrderMeal called...');
   };
 

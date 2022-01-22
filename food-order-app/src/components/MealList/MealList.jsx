@@ -13,7 +13,7 @@ function MealList({ items }) {
           ? (<ul className={ styles['meal__list'] }>
               {
                 items.map(meal => (
-                  <li key={ meal._id } className={ styles['meal__list-item'] }>
+                  <li key={ meal.id } className={ styles['meal__list-item'] }>
                     <MealItem meal={ meal } />
 
                     <AddToCart meal={ meal } />

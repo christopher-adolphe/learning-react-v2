@@ -1,21 +1,25 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
+
+import AppContext from '../../context/AppContext';
 
 import { CartItem } from '..';
 
 import styles from './Cart.module.css';
 
-function Cart({ items }) {
+function Cart() {
+  // TO DO: remove this hard coded value for `cartTotal` and create a state to manage it
   const cartTotal = 12.99;
+
+  const { cart } = useContext(AppContext);
 
   return (
     <div className={ styles.cart }>
       {
-        items.length ? (
+        cart.length ? (
           <ul className={ styles['cart__list'] }>
             {
-              items.map(item => (
-                <li key={ item._id } className={ styles['cart__list-item'] }>
+              cart.map(item => (
+                <li key={ item.cartId } className={ styles['cart__list-item'] }>
                   <CartItem meal={ item } />
                 </li>
               ))
@@ -32,9 +36,5 @@ function Cart({ items }) {
     </div>
   );
 }
-
-Cart.propTypes = {
-  items: PropTypes.array.isRequired
-};
 
 export default Cart;

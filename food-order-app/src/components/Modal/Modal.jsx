@@ -1,4 +1,5 @@
 import React, { Fragment, useContext, useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { FiX } from 'react-icons/fi';
 
 import AppContext from '../../context/AppContext';
@@ -8,7 +9,7 @@ import { Backdrop, Button } from '..';
 import styles from './Modal.module.css';
 
 
-function Modal({ children }) {
+function Modal({ children, title }) {
   const { isModalVisible: contextIsModalVisible, onToggleModal, onRemoveAll } = useContext(AppContext);
 
   const [ isModalVisible, setIsModalVisible ] = useState(contextIsModalVisible);
@@ -20,19 +21,18 @@ function Modal({ children }) {
   const handleDismissModal = (event) => {
     event.stopPropagation();
 
-    setIsModalVisible(false);
     onToggleModal();
   };
 
   const handleClearCart = (event) => {
     event.stopPropagation();
 
+    onToggleModal();
     onRemoveAll();
   };
 
   const handleOrderMeal = (event) => {
     event.stopPropagation();
-    console.log('handleOrderMeal called...');
   };
 
   return (
@@ -42,7 +42,7 @@ function Modal({ children }) {
           <Backdrop onDismiss={ handleDismissModal }>
             <div className={ styles.modal }>
               <header className={ styles['modal__header'] }>
-                <h3 className={ styles['modal__title'] }>Modal Title</h3>
+                <h3 className={ styles['modal__title'] }>{ title }</h3>
 
                 <Button className="button--icon" onHandleClick={ handleDismissModal }>
                   <FiX size="1.75em" />
@@ -65,5 +65,9 @@ function Modal({ children }) {
     </Fragment>
   );
 }
+
+Modal.propTypes = {
+  title: PropTypes.string.isRequired
+};
 
 export default Modal;

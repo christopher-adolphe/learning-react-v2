@@ -1,5 +1,4 @@
 import React, { createContext, useState, useReducer } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 
 const AppContext = createContext({
   cart: [],
@@ -22,14 +21,22 @@ const cartReducer = (cart, action) => {
 
   switch (type) {
     case ACTIONS.ADD_ITEM:
-      const newItem = { ...payload.item, cartId: uuidv4() };
+      localStorage.setItem('cart', JSON.stringify([ ...cart, ...payload.items ]));
 
-      return [ ...cart, newItem ];
+      return [ ...cart, ...payload.items ];
 
     case ACTIONS.REMOVE_ITEM:
-      return cart.filter(item => item.cartId !== payload.id);
+      const itemIndex = cart.findIndex(item => item.id === payload.id);
+
+      cart.splice(itemIndex, 1);
+
+      localStorage.setItem('cart', JSON.stringify(cart));
+
+      return [ ...cart ];
 
     case ACTIONS.REMOVE_ALL:
+      localStorage.removeItem('cart');
+
       return [];
   
     default:
@@ -38,19 +45,17 @@ const cartReducer = (cart, action) => {
 };
 
 export function AppContextProvider({ children }) {
-  const [ cart, dispatchCart ] = useReducer(cartReducer, []);
+  const [ cart, dispatchCart ] = useReducer(cartReducer, JSON.parse(localStorage.getItem('cart')) || []);
   const [ isModalVisible, setIsModalVisible ] = useState(false);
 
   const handleToggleModal = () => {
     setIsModalVisible((prevIsModalVisible) => !prevIsModalVisible);
   };
 
-  const handleAddItem = ({ id, title, price }) => {
+  const handleAddItem = (items) => {
     dispatchCart({
       type: ACTIONS.ADD_ITEM,
-      payload: {
-        item: { id, title, price }
-      }
+      payload: { items }
     });
   };
 

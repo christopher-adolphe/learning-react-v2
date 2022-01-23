@@ -1,20 +1,26 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { FiMinus, FiPlus } from 'react-icons/fi';
+
+import AppContext from '../../context/AppContext';
 
 import { Button } from '..';
 
 import styles from './CartItem.module.css';
 
-function CartItem({ meal }) {
-  const amount = 1;
+function CartItem({ meal, amount }) {
+  const { onAddItem, onRemoveItem } = useContext(AppContext);
 
-  const handleIncrementItem = () => {
-    console.log('handleIncrementItem called...');
+  const handleIncrementItem = (event) => {
+    event.stopPropagation();
+
+    onAddItem([ meal ]);
   };
 
-  const handleDecrementItem = () => {
-    console.log('handleDecrementItem called...');
+  const handleDecrementItem = (event) => {
+    event.stopPropagation();
+
+    onRemoveItem(meal.id);
   };
 
   return (
@@ -42,7 +48,8 @@ function CartItem({ meal }) {
 }
 
 CartItem.propTypes = {
-  meal: PropTypes.object.isRequired
+  meal: PropTypes.object.isRequired,
+  amount: PropTypes.number.isRequired
 };
 
 export default CartItem;

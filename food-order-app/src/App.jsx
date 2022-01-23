@@ -20,7 +20,7 @@ function App() {
 
       {
         createPortal(
-          <Modal>
+          <Modal title="Order Summary">
             <Cart />
           </Modal>
           , document.getElementById('modal-root')

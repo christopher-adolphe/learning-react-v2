@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useState, useEffect } from 'react';
+import React, { Fragment, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { FiX } from 'react-icons/fi';
 
@@ -10,13 +10,7 @@ import styles from './Modal.module.css';
 
 
 function Modal({ children, title }) {
-  const { isModalVisible: contextIsModalVisible, onToggleModal, onRemoveAll } = useContext(AppContext);
-
-  const [ isModalVisible, setIsModalVisible ] = useState(contextIsModalVisible);
-
-  useEffect(() => {
-    setIsModalVisible(contextIsModalVisible);
-  }, [contextIsModalVisible]);
+  const { isModalVisible, onToggleModal, onRemoveAll } = useContext(AppContext);
 
   const handleDismissModal = (event) => {
     event.stopPropagation();

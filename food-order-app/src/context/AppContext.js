@@ -21,9 +21,11 @@ const cartReducer = (cart, action) => {
 
   switch (type) {
     case ACTIONS.ADD_ITEM:
-      localStorage.setItem('cart', JSON.stringify([ ...cart, ...payload.items ]));
+      const updatedCart = [ ...cart, ...payload.items ];
+      
+      localStorage.setItem('cart', JSON.stringify(updatedCart));
 
-      return [ ...cart, ...payload.items ];
+      return updatedCart;
 
     case ACTIONS.REMOVE_ITEM:
       const itemIndex = cart.findIndex(item => item.id === payload.id);

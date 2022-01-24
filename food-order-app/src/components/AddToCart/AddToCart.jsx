@@ -29,7 +29,6 @@ function AddToCart({ meal }) {
   };
 
   const handleAddToCart = (item) => {
-    console.log('handleAddToCart called..');
     const { id, title, price } = item;
     const mealItems = [];
 

@@ -10,16 +10,12 @@ import styles from './Header.module.css';
 function Header() {
   const { cart, onToggleModal } = useContext(AppContext);
 
-  const handleShowCart = () => {
-    onToggleModal();
-  };
-
   return (
     <header className={ styles.header }>
       <div className={ styles['header__navbar'] }>
         <span className={ styles['header__brand'] }><FiSmile color="#202124" size="1.75em" /> Happy Meals</span>
 
-        <Button onHandleClick={ handleShowCart }><FiShoppingBag size="1.5em" />Your Cart<Tag count={ cart.length } /></Button>
+        <Button onHandleClick={ onToggleModal }><FiShoppingBag size="1.5em" />Your Cart<Tag count={ cart.length } /></Button>
       </div>
 
       <div className={ styles['header__hero'] }>

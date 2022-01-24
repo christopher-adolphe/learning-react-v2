@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
-import { MealList } from '../../components';
 import { getMeals } from '../../services/fakeMealService';
 
+import { MealList } from '../../components';
 
 function Home() {
   const [ meals, setMeals ] = useState([]);

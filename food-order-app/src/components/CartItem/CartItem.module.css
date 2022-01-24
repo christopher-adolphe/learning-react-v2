@@ -10,6 +10,8 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: stretch;
+  width: 100%;
+  max-width: 15rem;
 }
 
 .cart-item__title {
@@ -43,6 +45,6 @@
   align-items: center;
 }
 
-.cart-item__controls button:not(:last-child) {
-  margin-right: 1rem;
+.cart-item__controls button {
+  margin: 0 0.5rem;
 }

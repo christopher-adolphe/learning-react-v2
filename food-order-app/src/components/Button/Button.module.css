@@ -29,6 +29,13 @@
   border-color: #01e2c2;
 }
 
+.button:disabled {
+  background-color: #ecf0f1;
+  border-color: #bdc3c7;
+  color: #bdc3c7;
+  cursor: not-allowed;
+}
+
 .button--bordered {
   border: 1px solid #01e2c2;
   background-color: #f8f9fc;

@@ -29,7 +29,7 @@ function CartItem({ meal, amount }) {
         <h4 className={ styles['cart-item__title'] }>{ meal.title }</h4>
 
         <div className={ styles['cart-item__total'] }>
-          <span className={ styles['cart-item__price'] }>Rs { meal.price }</span>
+          <span className={ styles['cart-item__price'] }>Rs { meal.price.toFixed(2) }</span>
           <span className={ styles['cart-item__amount'] }>x { amount }</span>
         </div>
       </div>

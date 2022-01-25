@@ -10,6 +10,8 @@ const AppContext = createContext({
 
 AppContext.displayName = 'AppContext';
 
+const initialCarState = JSON.parse(localStorage.getItem('cart')) || [];
+
 const ACTIONS = {
   ADD_ITEM: 'ADD-ITEM',
   REMOVE_ITEM: 'REMOVE-ITEM',
@@ -47,7 +49,7 @@ const cartReducer = (cart, action) => {
 };
 
 export function AppContextProvider({ children }) {
-  const [ cart, dispatchCart ] = useReducer(cartReducer, JSON.parse(localStorage.getItem('cart')) || []);
+  const [ cart, dispatchCart ] = useReducer(cartReducer, initialCarState);
   const [ isModalVisible, setIsModalVisible ] = useState(false);
 
   const handleToggleModal = () => {

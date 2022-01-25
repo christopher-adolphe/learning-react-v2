@@ -13,7 +13,7 @@ function MealItem({ meal }) {
       </div>
 
       <div className={ styles['meal-item__price'] }>
-        <h3 className={ styles['meal-item__title-price'] }>Rs { meal.price }</h3>
+        <h3 className={ styles['meal-item__title-price'] }>Rs { meal.price.toFixed(2) }</h3>
       </div>
     </div>
   );

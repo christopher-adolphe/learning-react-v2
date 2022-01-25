@@ -43,7 +43,7 @@ function Cart() {
             }
             <li className={ `${styles['cart__list-item']} ${styles['cart__total']}` }>
               <span className={ styles['cart__total-label'] }>Total Amount</span>
-              <span className={ styles['cart__total-value'] }>Rs { cartTotal }</span>
+              <span className={ styles['cart__total-value'] }>Rs { cartTotal.toFixed(2) }</span>
             </li>
           </ul>
         ) : (

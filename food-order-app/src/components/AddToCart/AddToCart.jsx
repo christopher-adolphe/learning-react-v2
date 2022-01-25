@@ -30,13 +30,8 @@ function AddToCart({ meal }) {
 
   const handleAddToCart = (item) => {
     const { id, title, price } = item;
-    const mealItems = [];
 
-    for (let count = 0; count < cartData.amount; count++) {
-      mealItems.push({ id, title, price });
-    }
-
-    onAddItem(mealItems);
+    onAddItem({ id, title, price, amount: cartData.amount });
     setCartData({ amount: 1, error: null });
   };
 

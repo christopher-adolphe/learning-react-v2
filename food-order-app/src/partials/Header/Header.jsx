@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { FiSmile, FiShoppingBag } from 'react-icons/fi';
 
 import AppContext from '../../context/AppContext';
@@ -9,13 +9,32 @@ import styles from './Header.module.css';
 
 function Header() {
   const { cart, onToggleModal } = useContext(AppContext);
+  const [ isButtonAnimated, setIsButtonAnimated ] = useState(false);
+  const cartCount = cart.length ? cart.reduce((prevValue, item) => prevValue + item.amount, 0) : 0;
+  const classes = isButtonAnimated ? 'shake-top' : '';
+
+  useEffect(() => {
+    if (!cart.length) {
+      return;
+    }
+
+    setIsButtonAnimated(true);
+
+    const timer = setTimeout(() => {
+      setIsButtonAnimated(false);
+    }, 300);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [cart]);
 
   return (
     <header className={ styles.header }>
       <div className={ styles['header__navbar'] }>
         <span className={ styles['header__brand'] }><FiSmile color="#202124" size="1.75em" /> Happy Meals</span>
 
-        <Button onHandleClick={ onToggleModal }><FiShoppingBag size="1.5em" />Your Cart<Tag count={ cart.length } /></Button>
+        <Button className={ classes } onHandleClick={ onToggleModal }><FiShoppingBag size="1.5em" />Your Cart<Tag count={ cartCount } /></Button>
       </div>
 
       <div className={ styles['header__hero'] }>

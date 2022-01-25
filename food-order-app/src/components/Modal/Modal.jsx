@@ -21,7 +21,6 @@ function Modal({ children, title }) {
   const handleClearCart = (event) => {
     event.stopPropagation();
 
-    onToggleModal();
     onRemoveAll();
   };
 

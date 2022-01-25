@@ -20,23 +20,44 @@ const ACTIONS = {
 
 const cartReducer = (cart, action) => {
   const { type, payload } = action;
+  let updatedCart;
+  let itemIndex;
+  let cartItem;
 
   switch (type) {
     case ACTIONS.ADD_ITEM:
-      const updatedCart = [ ...cart, ...payload.items ];
+      itemIndex = cart.findIndex(item => item.id === payload.item.id);
+      cartItem = cart[itemIndex];
+
+      if (cartItem) {
+        const updatedCartItem = { ...cartItem, amount: cartItem.amount + 1 };
+
+        updatedCart = [ ...cart ];
+        updatedCart[itemIndex] = { ...updatedCartItem };
+      } else {
+        updatedCart = [ ...cart, { ...payload.item } ];
+      }
       
       localStorage.setItem('cart', JSON.stringify(updatedCart));
 
       return updatedCart;
 
     case ACTIONS.REMOVE_ITEM:
-      const itemIndex = cart.findIndex(item => item.id === payload.id);
+      itemIndex = cart.findIndex(item => item.id === payload.id);
+      cartItem = cart[itemIndex];
 
-      cart.splice(itemIndex, 1);
+      if (cartItem.amount === 1) {
+        updatedCart = cart.filter(item => item.id !== payload.id);
+      } else {
+        const updatedCartItem = { ...cartItem, amount: cartItem.amount - 1 };
 
-      localStorage.setItem('cart', JSON.stringify(cart));
+        updatedCart = [ ...cart ];
+        updatedCart[itemIndex] = { ...updatedCartItem };
+      }
 
-      return [ ...cart ];
+      localStorage.setItem('cart', JSON.stringify(updatedCart));
+
+      return updatedCart;
 
     case ACTIONS.REMOVE_ALL:
       localStorage.removeItem('cart');
@@ -56,10 +77,10 @@ export function AppContextProvider({ children }) {
     setIsModalVisible((prevIsModalVisible) => !prevIsModalVisible);
   };
 
-  const handleAddItem = (items) => {
+  const handleAddItem = (item) => {
     dispatchCart({
       type: ACTIONS.ADD_ITEM,
-      payload: { items }
+      payload: { item }
     });
   };
 

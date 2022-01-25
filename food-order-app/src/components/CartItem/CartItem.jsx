@@ -8,13 +8,13 @@ import { Button } from '..';
 
 import styles from './CartItem.module.css';
 
-function CartItem({ meal, amount }) {
+function CartItem({ meal }) {
   const { onAddItem, onRemoveItem } = useContext(AppContext);
 
   const handleIncrementItem = (event) => {
     event.stopPropagation();
 
-    onAddItem([ meal ]);
+    onAddItem({ ...meal, amount: 1 });
   };
 
   const handleDecrementItem = (event) => {
@@ -30,7 +30,7 @@ function CartItem({ meal, amount }) {
 
         <div className={ styles['cart-item__total'] }>
           <span className={ styles['cart-item__price'] }>Rs { meal.price.toFixed(2) }</span>
-          <span className={ styles['cart-item__amount'] }>x { amount }</span>
+          <span className={ styles['cart-item__amount'] }>x { meal.amount }</span>
         </div>
       </div>
 
@@ -48,8 +48,7 @@ function CartItem({ meal, amount }) {
 }
 
 CartItem.propTypes = {
-  meal: PropTypes.object.isRequired,
-  amount: PropTypes.number.isRequired
+  meal: PropTypes.object.isRequired
 };
 
 export default CartItem;

@@ -3,9 +3,11 @@
 }
 
 .cart__list {
+  max-height: 18.75rem;
   margin: 0;
   padding: 0;
   list-style: none;
+  overflow-y: scroll;
 }
 
 .cart__list-item {
@@ -23,6 +25,10 @@
 
 .cart__list-item:not(:last-child) {
   border-bottom: 1px solid #e5e5e5;
+}
+
+.cart__total {
+  border-top: 1px solid #e5e5e5;
 }
 
 .cart__total:hover {

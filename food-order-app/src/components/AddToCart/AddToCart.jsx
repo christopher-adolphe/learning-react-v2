@@ -40,7 +40,7 @@ function AddToCart({ meal }) {
       <div className={ styles['add-to-cart__control'] }>
         <label className={ styles['add-to-cart__label'] } htmlFor="amount">Amount:</label>
 
-        <input className={ styles['add-to-cart__input'] } id="amount" type="number" min="1" max="5" value={ cartData.amount } onChange={ handleAmountChange } />
+        <input className={ cartData.error !== null ? `${styles['add-to-cart__input']} ${styles['add-to-cart__input--error']}` : `${styles['add-to-cart__input']}` } id="amount" type="number" min="1" max="5" value={ cartData.amount } onChange={ handleAmountChange } />
       </div>
 
       <span className={ cartData.error !== null ? `${styles['add-to-cart__error']} ${styles['add-to-cart__error--visible']}` : styles['add-to-cart__error'] }>{ cartData.error }</span>

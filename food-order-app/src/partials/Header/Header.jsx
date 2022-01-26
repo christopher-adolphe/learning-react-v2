@@ -32,7 +32,7 @@ function Header() {
   return (
     <header className={ styles.header }>
       <div className={ styles['header__navbar'] }>
-        <span className={ styles['header__brand'] }><FiSmile color="#202124" size="1.75em" /> Happy Meals</span>
+        <span className={ styles['header__brand'] }><FiSmile color="#ce0a24" size="1.75em" /> Happy Meals</span>
 
         <Button className={ classes } onHandleClick={ onToggleModal }><FiShoppingBag size="1.5em" />Your Cart<Tag count={ cartCount } /></Button>
       </div>

@@ -1,0 +1,36 @@
+.meal-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+.meal-item__content {
+  margin-right: 1rem;
+  text-align: left;
+}
+
+.meal-item__price {
+  text-align: left;
+}
+
+.meal-item__title,
+.meal-item__title-price {
+  margin-top: 0;
+  font-size: 1.125rem;
+}
+
+.meal-item__title {
+  margin-bottom: 0.75rem;
+}
+
+.meal-item__desc {
+  margin: 0;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  color: #757578;
+}
+
+.meal-item__title-price {
+  margin-bottom: 0;
+}

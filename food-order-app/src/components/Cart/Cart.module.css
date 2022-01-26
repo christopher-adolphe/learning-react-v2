@@ -1,0 +1,47 @@
+.cart {
+  margin: 0 -1rem;
+}
+
+.cart__list {
+  max-height: 18.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-y: scroll;
+}
+
+.cart__list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  padding: 1.25rem 1rem;
+  background-color: transparent;
+  transition: background-color 0.35s ease-in;
+}
+
+.cart__list-item:hover {
+  background-color: #f0f0f0;
+}
+
+.cart__list-item:not(:last-child) {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.cart__total {
+  border-top: 1px solid #e5e5e5;
+}
+
+.cart__total:hover {
+  background-color: transparent;
+}
+
+.cart__total-label,
+.cart__total-value {
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+
+.cart__message {
+  margin: 0;
+  text-align: center;
+}

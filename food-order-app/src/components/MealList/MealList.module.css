@@ -1,0 +1,32 @@
+.meal {
+  width: 100%;
+  padding: 1.25rem;
+}
+
+.meal__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.meal__list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  padding: 1.25rem 1rem;
+  background-color: transparent;
+  transition: background-color 0.35s ease-in;
+}
+
+.meal__list-item:hover {
+  background-color: #f0f0f0;
+}
+
+.meal__list-item:not(:last-child) {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.meal__message {
+  text-align: center;
+  font-weight: bold;
+}

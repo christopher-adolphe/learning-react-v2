@@ -1,0 +1,67 @@
+.header {
+  width: 100%;
+  height: 3.75rem;
+  color: #1a1a1a;
+}
+
+.header__navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  max-height: 3.75rem;
+  background-color: #f0f0f0;
+  border-bottom: 1px solid #e5e5e5;
+  padding: 0.5rem 1rem;
+  z-index: 1020;
+}
+
+.header__brand {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #ce0a24;
+}
+
+.header__brand > svg {
+  margin-right: 0.5rem;
+}
+
+.header__hero {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 25rem;
+  background: url('../../assets/images/bg-hero.jpg') center center no-repeat;
+  background-size: cover;
+  color: #fefefa;
+  overflow: hidden;
+}
+
+.header__hero-content {
+  position: relative;
+  width: 100%;
+  max-width: 37.5rem;
+  padding: 0 1rem;
+  text-align: center;
+  z-index: 10;
+}
+
+.header__hero-shader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 25rem;
+  background-color: #1a1a1a;
+  z-index: 1;
+  opacity: 0.25;
+}

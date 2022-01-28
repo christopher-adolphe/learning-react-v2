@@ -64,6 +64,16 @@ class Users extends Component {
     };
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    // console.log('componentDidUpdate - prevProps:', prevProps);
+    // console.log('componentDidUpdate - prevState:', prevState);
+    const { users } = this.props;
+
+    if (!users.length) {
+      throw new Error('No user found!');
+    }
+  }
+
   toggleUsersHandler() {
     // In class-based component we use the `setState()` method to
     // update the `state` property. The `setState()` method takes

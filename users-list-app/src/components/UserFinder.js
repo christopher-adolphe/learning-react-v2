@@ -1,6 +1,7 @@
 import React, { Component, Fragment, useState, useEffect } from 'react';
 
 import Users from './Users';
+import ErrorBoundary from './ErrorBoundary';
 
 import classes from './UserFinder.module.css';
 
@@ -83,7 +84,10 @@ class UserFinder extends Component {
           <input type='search' onChange={ this.searchChangeHandler.bind(this) } />
         </div>
 
-        <Users users={ filteredUsers } />
+        {/* Using the `ErrorBoundary` component to wrap the `Users` component which can throw an error */}
+        <ErrorBoundary>
+          <Users users={ filteredUsers } />
+        </ErrorBoundary>
       </Fragment>
     );
   }

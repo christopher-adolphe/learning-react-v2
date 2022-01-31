@@ -1,58 +1,71 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import CourseGoalList from './components/CourseGoals/CourseGoalList/CourseGoalList';
-// import CourseInput from './components/CourseGoals/CourseInput/CourseInput';
-import CourseInputV2 from './components/CourseGoals/CourseInputV2/CourseInputV2';
-import './App.css';
+import config from './config.json';
+import useHttp from './hooks/use-http';
 
-const App = () => {
-  const [courseGoals, setCourseGoals] = useState([
-    { text: 'Do all exercises!', id: 'g1' },
-    { text: 'Finish the course!', id: 'g2' }
-  ]);
+import Tasks from './components/Tasks/Tasks';
+import NewTask from './components/NewTask/NewTask';
 
-  const addGoalHandler = enteredText => {
-    setCourseGoals(prevGoals => {
-      const updatedGoals = [...prevGoals];
-      updatedGoals.unshift({ text: enteredText, id: Math.random().toString() });
-      return updatedGoals;
-    });
+function App() {
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [error, setError] = useState(null);
+
+  // const fetchTasks = async (taskText) => {
+  //   setIsLoading(true);
+  //   setError(null);
+  //   try {
+  //     const response = await fetch(config.apiEndpoint);
+
+  //     if (!response.ok) {
+  //       throw new Error('Request failed!');
+  //     }
+
+  //     const data = await response.json();
+
+  //     const loadedTasks = [];
+
+  //     for (const taskKey in data) {
+  //       loadedTasks.push({ id: taskKey, text: data[taskKey].text });
+  //     }
+
+  //     const loadedTasks = Object.keys(data).map(key => ({ id: key, text: data[key].text }));
+
+  //     setTasks(loadedTasks);
+  //   } catch (err) {
+  //     setError(err.message || 'Something went wrong!');
+  //   }
+  //   setIsLoading(false);
+  // };
+  
+  const [tasks, setTasks] = useState([]);
+  
+  const { isLoading, error, sendRequest: fetchTasks } = useHttp();
+  
+  const handleAddTask = async (task) => {
+    setTasks((prevTasks) => [ ...prevTasks, { ...task } ]);
   };
+  
+  useEffect(() => {
+    const handleResponseData = (data) => {
+      const loadedTasks = Object.keys(data).map(key => ({ id: key, text: data[key].text }));
+      
+      setTasks(loadedTasks);
+    };
 
-  const deleteItemHandler = goalId => {
-    setCourseGoals(prevGoals => {
-      const updatedGoals = prevGoals.filter(goal => goal.id !== goalId);
-      return updatedGoals;
-    });
-  };
-
-  let content = (
-    <p style={{ textAlign: 'center' }}>No goals found. Maybe add one?</p>
-  );
-
-  if (courseGoals.length > 0) {
-    content = (
-      <CourseGoalList items={courseGoals} onDeleteItem={deleteItemHandler} />
-    );
-  }
+    fetchTasks({ url: config.apiEndpoint }, handleResponseData);
+  }, [fetchTasks]);
 
   return (
-    <div>
-      <section id="goal-form">
-        <CourseInputV2 onAddGoal={addGoalHandler} />
-      </section>
-      <section id="goals">
-        {content}
-        {/* {courseGoals.length > 0 && (
-          <CourseGoalList
-            items={courseGoals}
-            onDeleteItem={deleteItemHandler}
-          />
-        ) // <p style={{ textAlign: 'center' }}>No goals found. Maybe add one?</p>
-        } */}
-      </section>
-    </div>
+    <React.Fragment>
+      <NewTask onAddTask={ handleAddTask } />
+      <Tasks
+        items={ tasks }
+        loading={ isLoading }
+        error={ error }
+        onFetch={ fetchTasks }
+      />
+    </React.Fragment>
   );
-};
+}
 
 export default App;

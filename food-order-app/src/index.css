@@ -14,3 +14,7 @@ body {
   background-color: #f8f9fc;
   color: #202124;
 }
+
+.status-message {
+  text-align: center;
+}

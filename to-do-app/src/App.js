@@ -41,7 +41,7 @@ function App() {
   
   const { isLoading, error, sendRequest: fetchTasks } = useHttp();
   
-  const handleAddTask = async (task) => {
+  const handleAddTask = (task) => {
     setTasks((prevTasks) => [ ...prevTasks, { ...task } ]);
   };
   

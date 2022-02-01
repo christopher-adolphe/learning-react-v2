@@ -2,15 +2,21 @@ import { useRef, useState } from 'react';
 
 const SimpleInput = (props) => {
   // Approach 1: Using state
-  const [ name, setName ] = useState('');
-  const [ isNameTouched, setIsNameTouched ] = useState(false);
+  const [ formData, setFormData ] = useState({
+    name: { value: '', isTouched: false },
+    email: { value: '', isTouched: false }
+  });
+  
+  const regExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   // Adding derived state variables
   let isFormValid = true;
-  const isNameValid = name.trim() !== '';
-  const formControlClasses = (isNameTouched && !isNameValid) ? 'form-control invalid' : 'form-control';
+  const isNameValid = formData.name.value.trim() !== '';
+  const isNameInvalid = !isNameValid && formData.name.isTouched;
+  const isEmailValid = formData.email.value.trim() !== '' && formData.email.value.trim().match(regExp);
+  const isEmailInvalid = !isEmailValid && formData.name.isTouched;
 
-  if (isNameTouched && !isNameValid) {
+  if (!isNameValid || !isEmailValid) {
     isFormValid = false;
   }
   
@@ -18,36 +24,34 @@ const SimpleInput = (props) => {
   const nameInput = useRef(null);
 
   const handleChange = (event) => {
-    const { value } = event.target;
+    const { id, value } = event.target;
 
-    setName(value);
-    setIsNameTouched(true);
+    setFormData((prevFormData) => ({ ...prevFormData, [id]: { value, isTouched: true } }));
   };
 
-  const handleBlur = () => {
-    setIsNameTouched(true);
+  const handleBlur = (event) => {
+    const { id } = event.target;
+
+    setFormData((prevFormData) => ({ ...prevFormData, [id]: { ...prevFormData[id], isTouched: true } }));
   }
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    setIsNameTouched(true);
+    setFormData((prevFormData) => ({
+      name: { ...prevFormData.name, isTouched: true },
+      email: { ...prevFormData.email, isTouched: true }
+    }));
 
-    if (name.trim() === '' || !name.length ) {
-      console.log('Cannot submit form');
-      return;
-    }
-
-    console.log('Sending form data using state: ', name);
+    console.log('Sending form data using state: ', formData);
 
     console.log('Sending form data using refs: ', nameInput.current.value);
 
-    // Resetting the name input is easier
-    // when the form is manage via state
-    setName('');
-
-    // Removing invalid input status
-    setIsNameTouched(false);
+    // Resetting the form inputs
+    setFormData({
+      name: { value: '', isTouched: false },
+      email: { value: '', isTouched: false }
+    });
 
     // Resetting the name input when using
     // refs would technically work but this
@@ -60,12 +64,21 @@ const SimpleInput = (props) => {
 
   return (
     <form onSubmit={ handleSubmit }>
-      <div className={ formControlClasses }>
-        <label htmlFor='name'>Your Name</label>
-        <input type='text' id='name' ref={ nameInput } value={ name } onChange={ handleChange } onBlur={ handleBlur } />
+      <div className={ isNameInvalid ? 'form-control invalid' : 'form-control' }>
+        <label htmlFor='name'>Your Name:</label>
+        <input type='text' id='name' ref={ nameInput } value={ formData.name.value } onChange={ handleChange } onBlur={ handleBlur } />
 
         {
-          (isNameTouched && !isNameValid) ? <span className="error-text">Name is a field mandatory</span> : null
+          isNameInvalid ? <span className="error-text">Name is a field mandatory</span> : null
+        }
+      </div>
+
+      <div className={ isEmailInvalid ? 'form-control invalid' : 'form-control' }>
+        <label htmlFor='email'>Your Email:</label>
+        <input type='text' id='email' value={ formData.email.value } onChange={ handleChange } onBlur={ handleBlur } />
+
+        {
+          isEmailInvalid ? <span className="error-text">Email is a field mandatory</span> : null
         }
       </div>
 

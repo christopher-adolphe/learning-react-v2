@@ -1,5 +1,6 @@
 import SimpleInput from './components/SimpleInput';
 import SimpleInputV2 from './components/SimpleInputV2';
+import BasicForm from './components/BasicForm';
 
 function App() {
   return (
@@ -14,6 +15,11 @@ function App() {
       <h3>Managing form via custom hook</h3>
 
       <SimpleInputV2 />
+
+      <br/>
+      <hr/>
+
+      <BasicForm />
     </div>
   );
 }

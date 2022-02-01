@@ -10,14 +10,14 @@ const SimpleInput = (props) => {
   const regExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   // Adding derived state variables
-  let isFormValid = true;
+  let isFormValid = false;
   const isNameValid = formData.name.value.trim() !== '';
   const isNameInvalid = !isNameValid && formData.name.isTouched;
   const isEmailValid = formData.email.value.trim() !== '' && formData.email.value.trim().match(regExp);
   const isEmailInvalid = !isEmailValid && formData.name.isTouched;
 
-  if (!isNameValid || !isEmailValid) {
-    isFormValid = false;
+  if (isNameValid && isEmailValid) {
+    isFormValid = true;
   }
   
   // Approach 2: Using refs
@@ -37,6 +37,10 @@ const SimpleInput = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    if (!isFormValid) {
+      return;
+    }
 
     setFormData((prevFormData) => ({
       name: { ...prevFormData.name, isTouched: true },

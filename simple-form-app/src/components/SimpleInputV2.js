@@ -30,14 +30,18 @@ const SimpleInputV2 = () => {
   } = useInput(handleValidateEmail);
 
   // Adding derived state variables
-  let isFormValid = true;
+  let isFormValid = false;
 
-  if (!isNameInputValid || !isEmailInputValid) {
-    isFormValid = false;
+  if (isNameInputValid && isEmailInputValid) {
+    isFormValid = true;
   }
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    if (!isFormValid) {
+      return;
+    }
 
     console.log('Sending form data using state: ', { name: nameInput, email: emailInput });
 

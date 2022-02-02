@@ -15,7 +15,7 @@ Button.propTypes = {
   type: PropTypes.string,
   className: PropTypes.string,
   isDisabled: PropTypes.bool,
-  onHandleClick: PropTypes.func.isRequired
+  onHandleClick: PropTypes.func
 };
 
 export default Button;

@@ -11,13 +11,15 @@ function Home() {
 
   useEffect(() => {
     const handleResponseData = (data) => {
-      const fetchedMeals = Object.keys(data).map(key => ({
-        id: key,
-        title: data[key].title,
-        description: data[key].description,
-        category: data[key].category,
-        price: data[key].price
-      }));
+      const fetchedMeals = data !== null
+        ? Object.keys(data).map(key => ({
+            id: key,
+            title: data[key].title,
+            description: data[key].description,
+            category: data[key].category,
+            price: data[key].price
+          }))
+        : [];
 
       setMeals(fetchedMeals);
     };

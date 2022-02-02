@@ -10,7 +10,7 @@ import styles from './Modal.module.css';
 
 
 function Modal({ children, title }) {
-  const { cart, isModalVisible, onToggleModal, onRemoveAll } = useContext(AppContext);
+  const { cart, isModalVisible, isCheckoutVisible, onToggleModal, onRemoveAll, onToggleCheckout } = useContext(AppContext);
 
   const handleDismissModal = (event) => {
     event.stopPropagation();
@@ -26,6 +26,8 @@ function Modal({ children, title }) {
 
   const handleOrderMeal = (event) => {
     event.stopPropagation();
+    
+    onToggleCheckout();
   };
 
   return (
@@ -46,7 +48,7 @@ function Modal({ children, title }) {
 
               <footer className={ styles['modal__footer'] }>
                 {
-                  cart.length ? (
+                  (cart.length && !isCheckoutVisible) ? (
                     <Fragment>
                       <Button className="button--bordered" onHandleClick={ handleClearCart }>Clear</Button>
 

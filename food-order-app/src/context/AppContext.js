@@ -2,10 +2,13 @@ import React, { createContext, useState, useReducer } from 'react';
 
 const AppContext = createContext({
   cart: [],
+  isModalVisible: false,
+  isCheckoutVisible: false,
   onToggleModal: () => {},
   onAddItem: () => {},
   onRemoveItem: () => {},
-  onRemoveAll: () => {}
+  onRemoveAll: () => {},
+  onToggleCheckout: () => {}
 });
 
 AppContext.displayName = 'AppContext';
@@ -72,6 +75,7 @@ const cartReducer = (cart, action) => {
 export function AppContextProvider({ children }) {
   const [ cart, dispatchCart ] = useReducer(cartReducer, initialCarState);
   const [ isModalVisible, setIsModalVisible ] = useState(false);
+  const [ isCheckoutVisible, setIsCheckoutVisible ] = useState(false);
 
   const handleToggleModal = () => {
     setIsModalVisible((prevIsModalVisible) => !prevIsModalVisible);
@@ -95,14 +99,20 @@ export function AppContextProvider({ children }) {
     dispatchCart({ type: ACTIONS.REMOVE_ALL })
   };
 
+  const handleToggleCheckout = () => {
+    setIsCheckoutVisible((prevIsCheckoutVisible) => !prevIsCheckoutVisible);
+  };
+
   return (
     <AppContext.Provider value={ {
       cart,
       isModalVisible,
+      isCheckoutVisible,
       onToggleModal: handleToggleModal,
       onAddItem: handleAddItem,
       onRemoveItem: handleRemoveItem,
-      onRemoveAll: handleRemoveAll } }
+      onRemoveAll: handleRemoveAll,
+      onToggleCheckout: handleToggleCheckout } }
     >
       { children }
     </AppContext.Provider>

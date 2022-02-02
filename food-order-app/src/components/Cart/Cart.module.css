@@ -31,7 +31,8 @@
   border-top: 1px solid #e5e5e5;
 }
 
-.cart__total:hover {
+.cart__total:hover,
+.cart__checkout:hover {
   background-color: transparent;
 }
 

@@ -30,12 +30,16 @@ function Modal({ children, title }) {
     onToggleCheckout();
   };
 
+  const handleModal = (event) => {
+    event.stopPropagation();
+  };
+
   return (
     <Fragment>
       {
         isModalVisible ? (
           <Backdrop onDismiss={ handleDismissModal }>
-            <div className={ styles.modal }>
+            <div className={ styles.modal } onClick={ handleModal }>
               <header className={ styles['modal__header'] }>
                 <h3 className={ styles['modal__title'] }>{ title }</h3>
 

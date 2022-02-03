@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import config from '../../config.json';
-import useHttp from '../../hooks/use-http';
+import { useHttp } from '../../hooks';
 
 import { MealList } from '../../components';
 

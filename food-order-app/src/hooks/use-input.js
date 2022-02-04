@@ -1,4 +1,4 @@
-import { useReducer } from 'react';
+import { useReducer, useCallback } from 'react';
 
 const ACTIONS = {
   CHANGE: 'CHANGE',
@@ -46,13 +46,15 @@ function useInput() {
     dispatchInput({ type: ACTIONS.BLUR });
   };
 
-  const handleValidation = (validationFn) => {
+  const handleValidation = useCallback((validationFn) => {
     dispatchInput({ type: ACTIONS.VALIDATE, payload: { validationFn }});
-  }
+  }, []);
 
   const handleReset = () => {
     dispatchInput({ type: ACTIONS.RESET });
   };
+
+
 
   return { input, handleChange, handleBlur, handleValidation, handleReset };
 };

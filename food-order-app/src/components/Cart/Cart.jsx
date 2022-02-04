@@ -7,7 +7,7 @@ import { CartItem, Checkout } from '..';
 import styles from './Cart.module.css';
 
 function Cart() {
-  const { cart, isCheckoutVisible } = useContext(AppContext);
+  const { cart, isCheckoutVisible, onToggleCheckout } = useContext(AppContext);
   const cartTotal = cart.length ? cart.reduce((prevValue, item) => prevValue + (item.price * item.amount), 0) : 0;
 
   return (

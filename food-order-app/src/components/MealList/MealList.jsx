@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import WithCard from '../WithCard/WithCard';
 import { MealItem, AddToCart } from '..';
@@ -26,5 +27,9 @@ function MealList({ items }) {
     </div>
   );
 }
+
+MealList.propTypes = {
+  items: PropTypes.array.isRequired
+};
 
 export default WithCard(MealList);

@@ -10,10 +10,18 @@ import styles from './Modal.module.css';
 
 
 function Modal({ children, title }) {
-  const { cart, isModalVisible, isCheckoutVisible, onToggleModal, onRemoveAll, onToggleCheckout } = useContext(AppContext);
+  const { cart, isModalVisible, isCheckoutVisible, isCheckoutComplete, onToggleModal, onRemoveAll, onToggleCheckout, onResetCheckout } = useContext(AppContext);
 
   const handleDismissModal = (event) => {
     event.stopPropagation();
+
+    if (isCheckoutVisible) {
+      onToggleCheckout();
+    }
+
+    if (isCheckoutComplete) {
+      onResetCheckout();
+    }
 
     onToggleModal();
   };

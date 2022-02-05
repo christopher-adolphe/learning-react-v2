@@ -4,11 +4,15 @@ const AppContext = createContext({
   cart: [],
   isModalVisible: false,
   isCheckoutVisible: false,
+  isCheckoutComplete: false,
   onToggleModal: () => {},
   onAddItem: () => {},
   onRemoveItem: () => {},
   onRemoveAll: () => {},
-  onToggleCheckout: () => {}
+  onGetCartTotal: () => {},
+  onToggleCheckout: () => {},
+  onCheckoutComplete: () => {},
+  onResetCheckout: () => {}
 });
 
 AppContext.displayName = 'AppContext';
@@ -76,6 +80,7 @@ export function AppContextProvider({ children }) {
   const [ cart, dispatchCart ] = useReducer(cartReducer, initialCarState);
   const [ isModalVisible, setIsModalVisible ] = useState(false);
   const [ isCheckoutVisible, setIsCheckoutVisible ] = useState(false);
+  const [ isCheckoutComplete, setIsCheckoutComplete ] = useState(false);
 
   const handleToggleModal = () => {
     setIsModalVisible((prevIsModalVisible) => !prevIsModalVisible);
@@ -96,23 +101,41 @@ export function AppContextProvider({ children }) {
   };
 
   const handleRemoveAll = () => {
-    dispatchCart({ type: ACTIONS.REMOVE_ALL })
+    dispatchCart({ type: ACTIONS.REMOVE_ALL });
+  };
+
+  const handleGetCartTotal = () => {
+    const total = cart.length ? cart.reduce((prevValue, item) => prevValue + (item.price * item.amount), 0) : 0;
+
+    return total.toFixed(2);
   };
 
   const handleToggleCheckout = () => {
     setIsCheckoutVisible((prevIsCheckoutVisible) => !prevIsCheckoutVisible);
   };
 
+  const handleCheckoutComplete = () => {
+    setIsCheckoutComplete(true);
+  };
+
+  const handleResetCheckout = () => {
+    setIsCheckoutComplete(false);
+  }
+
   return (
     <AppContext.Provider value={ {
       cart,
       isModalVisible,
       isCheckoutVisible,
+      isCheckoutComplete,
       onToggleModal: handleToggleModal,
       onAddItem: handleAddItem,
       onRemoveItem: handleRemoveItem,
       onRemoveAll: handleRemoveAll,
-      onToggleCheckout: handleToggleCheckout } }
+      onGetCartTotal: handleGetCartTotal,
+      onToggleCheckout: handleToggleCheckout,
+      onCheckoutComplete: handleCheckoutComplete,
+      onResetCheckout: handleResetCheckout } }
     >
       { children }
     </AppContext.Provider>

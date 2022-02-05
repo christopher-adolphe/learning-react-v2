@@ -1,29 +1,48 @@
 import React, { useContext } from 'react';
 
+import config from '../../config.json';
+
 import AppContext from '../../context/AppContext';
 
-import { useInput } from '../../hooks';
+import { useInput, useHttp } from '../../hooks';
 
 import { Button } from '..';
 
 import styles from './Checkout.module.css';
 
-const onlyNumberRegExp = /^\d+$/;
+const onlyNumberRegExp = /^[0-9]*$/;
+
+const notEmptyFieldValidator = (value) => {
+  if (value.trim() === '') {
+    return 'Should not be empty!';
+  }
+
+  return null;
+};
 
 const stringFieldValidator = (value) => {
   const trimmed = value.trim();
 
-  return trimmed !== '' && !trimmed.match(onlyNumberRegExp);
+  if (onlyNumberRegExp.test(trimmed)) {
+    return 'Should contain letters only!';
+  }
+
+  return null;
 };
 
 const numberFieldValidator = (value) => {
   const trimmed = value.trim();
 
-  return trimmed !== '' && trimmed.match(onlyNumberRegExp);
+  if (!onlyNumberRegExp.test(trimmed)) {
+    return 'Should contain numbers only!';
+  }
+
+  return null;
 };
 
 function Checkout() {
-  const { onToggleCheckout } = useContext(AppContext);
+  const { cart, onRemoveAll, onGetCartTotal, onToggleCheckout, onCheckoutComplete } = useContext(AppContext);
+  const { isLoading, error, sendRequest: postOrder } = useHttp();
 
   const {
     input: nameInput,
@@ -76,25 +95,25 @@ function Checkout() {
     switch (formControl) {
       case 'name':
         handleNameBlur();
-        handleNameValidation(stringFieldValidator);
+        handleNameValidation(notEmptyFieldValidator, stringFieldValidator);
 
         break;
 
       case 'street':
         handleStreetBlur();
-        handleStreetValidation(stringFieldValidator);
+        handleStreetValidation(notEmptyFieldValidator);
 
         break;
 
       case 'postalCode':
         handlePostalCodeBlur();
-        handlePostalCodeValidation(numberFieldValidator);
+        handlePostalCodeValidation(notEmptyFieldValidator, numberFieldValidator);
 
         break;
 
       case 'city':
         handleCityBlur();
-        handleCityValidation(stringFieldValidator);
+        handleCityValidation(notEmptyFieldValidator, stringFieldValidator);
 
         break;
     
@@ -108,6 +127,19 @@ function Checkout() {
     handleStreetReset();
     handlePostalCodeReset();
     handleCityReset();
+  };
+
+  const getOrderDate = () => {
+    const orderDate = new Date();
+    const day = `${orderDate.getDate()}`.padStart(2, 0);
+    const month = `${orderDate.getMonth() + 1}`.padStart(2, 0);
+    const year = `${orderDate.getFullYear()}`;
+
+    return `${day}/${month}/${year}`;
+  };
+
+  const handleOrderResponse = (data) => {
+    return data.name;
   };
 
   const handleCancel = (event) => {
@@ -125,8 +157,29 @@ function Checkout() {
       return;
     }
 
-    console.log('handleConfirm called. Sending order...');
+    const order = {
+      client: nameInput.value,
+      address: `${streetInput.value}, ${cityInput.value}, ${postalCodeInput.value}`,
+      items: [ ...cart ],
+      total: onGetCartTotal(),
+      date: getOrderDate()
+    }
 
+    console.log('handleConfirm called. Sending order..., ', order);
+
+    postOrder({
+      url: `${config.apiEndpoint}/orders.json`,
+      headers: { 'Content-Type': 'application/json' },
+      body: order
+    }, handleOrderResponse);
+
+    if (error) {
+      return;
+    }
+
+    onRemoveAll();
+    onToggleCheckout();
+    onCheckoutComplete();
     resetCheckoutForm();
   };
 
@@ -146,7 +199,7 @@ function Checkout() {
 
         {
           (nameInput.isTouched && !nameInput.isValid)
-            ? <span className={ styles['error'] }>Name is a mandatory field</span>
+            ? <span className={ styles['error'] }>{ nameInput.error }</span>
             : null
         }
       </div>
@@ -165,7 +218,7 @@ function Checkout() {
 
         {
           (streetInput.isTouched && !streetInput.isValid)
-            ? <span className={ styles['error'] }>Street is a mandatory field</span>
+            ? <span className={ styles['error'] }>{ streetInput.error }</span>
             : null
         }
       </div>
@@ -184,7 +237,7 @@ function Checkout() {
 
         {
           (postalCodeInput.isTouched && !postalCodeInput.isValid)
-            ? <span className={ styles['error'] }>Postal Code is a mandatory field</span>
+            ? <span className={ styles['error'] }>{ postalCodeInput.error }</span>
             : null
         }
       </div>
@@ -203,7 +256,7 @@ function Checkout() {
 
         {
           (cityInput.isTouched && !cityInput.isValid)
-            ? <span className={ styles['error'] }>City is a mandatory field</span>
+            ? <span className={ styles['error'] }>{ cityInput.error }</span>
             : null
         }
       </div>

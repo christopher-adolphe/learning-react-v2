@@ -7,8 +7,8 @@ import { CartItem, Checkout } from '..';
 import styles from './Cart.module.css';
 
 function Cart() {
-  const { cart, isCheckoutVisible, onToggleCheckout } = useContext(AppContext);
-  const cartTotal = cart.length ? cart.reduce((prevValue, item) => prevValue + (item.price * item.amount), 0) : 0;
+  const { cart, isCheckoutVisible, isCheckoutComplete, onGetCartTotal } = useContext(AppContext);
+  const cartTotal = onGetCartTotal();
 
   return (
     <div className={ styles.cart }>
@@ -27,7 +27,7 @@ function Cart() {
 
             <div className={ `${styles['cart__list-item']} ${styles['cart__total']}` }>
               <span className={ styles['cart__total-label'] }>Total Amount</span>
-              <span className={ styles['cart__total-value'] }>Rs { cartTotal.toFixed(2) }</span>
+              <span className={ styles['cart__total-value'] }>Rs { cartTotal }</span>
             </div>
 
             {
@@ -40,7 +40,13 @@ function Cart() {
 
           </Fragment>
         ) : (
-          <h4 className={ styles['cart__message'] }>Your cart is empty!</h4>
+          <Fragment>
+            {
+              isCheckoutComplete
+                ? (<h4 className={ styles['cart__message'] }>Thank you for your order!!<br/><br/>Your meal(s) will be delivered to you soon!</h4>)
+                : (<h4 className={ styles['cart__message'] }>Your cart is empty!</h4>)
+            }
+          </Fragment>
         )
       }
     </div>

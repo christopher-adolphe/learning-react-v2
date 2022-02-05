@@ -7,7 +7,7 @@ const ACTIONS = {
   RESET: 'RESET'
 };
 
-const initialState = { value: '', isTouched: false, isValid: true };
+const initialState = { value: '', isTouched: false, isValid: true, error: null };
 
 const inputReducer = (state, action) => {
   const { type, payload } = action;
@@ -22,9 +22,20 @@ const inputReducer = (state, action) => {
       return { ...state, isTouched: true };
 
     case ACTIONS.VALIDATE:
-      const isValid = payload.validationFn(state.value);
+      const [ validators ] = payload.validators;
+      let error = null;
+
+      for (const validator of validators) {
+        error = validator(state.value);
+        
+        if (error !== null) {
+          break;
+        }
+      }
+
+      const isValid = error !== null ? false : true;
       
-      return { ...state, isValid };
+      return { ...state, isValid, error };
 
     case ACTIONS.RESET:
       
@@ -46,8 +57,8 @@ function useInput() {
     dispatchInput({ type: ACTIONS.BLUR });
   };
 
-  const handleValidation = useCallback((validationFn) => {
-    dispatchInput({ type: ACTIONS.VALIDATE, payload: { validationFn }});
+  const handleValidation = useCallback((...validators) => {
+    dispatchInput({ type: ACTIONS.VALIDATE, payload: { validators: [ validators ] }});
   }, []);
 
   const handleReset = () => {

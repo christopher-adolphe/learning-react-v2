@@ -8,7 +8,7 @@ const SimpleInputV2 = () => {
   };
 
   const handleValidateEmail = (value) => {
-    return value.trim() !== '' && value.trim().match(regExp);
+    return value.trim() !== '' && regExp.test(value.trim());
   }
 
   const {

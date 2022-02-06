@@ -31,7 +31,8 @@
   border-top: 1px solid #e5e5e5;
 }
 
-.cart__total:hover {
+.cart__total:hover,
+.cart__checkout:hover {
   background-color: transparent;
 }
 
@@ -44,4 +45,10 @@
 .cart__message {
   margin: 0;
   text-align: center;
+}
+
+.cart__loader {
+  width: 2.75rem;
+  height: 2.75rem;
+  margin: 0 auto;
 }

@@ -10,10 +10,18 @@ import styles from './Modal.module.css';
 
 
 function Modal({ children, title }) {
-  const { cart, isModalVisible, onToggleModal, onRemoveAll } = useContext(AppContext);
+  const { cart, isModalVisible, isCheckoutVisible, isCheckoutComplete, onToggleModal, onRemoveAll, onToggleCheckout, onResetCheckout } = useContext(AppContext);
 
   const handleDismissModal = (event) => {
     event.stopPropagation();
+
+    if (isCheckoutVisible) {
+      onToggleCheckout();
+    }
+
+    if (isCheckoutComplete) {
+      onResetCheckout();
+    }
 
     onToggleModal();
   };
@@ -26,6 +34,12 @@ function Modal({ children, title }) {
 
   const handleOrderMeal = (event) => {
     event.stopPropagation();
+    
+    onToggleCheckout();
+  };
+
+  const handleModal = (event) => {
+    event.stopPropagation();
   };
 
   return (
@@ -33,7 +47,7 @@ function Modal({ children, title }) {
       {
         isModalVisible ? (
           <Backdrop onDismiss={ handleDismissModal }>
-            <div className={ styles.modal }>
+            <div className={ styles.modal } onClick={ handleModal }>
               <header className={ styles['modal__header'] }>
                 <h3 className={ styles['modal__title'] }>{ title }</h3>
 
@@ -46,7 +60,7 @@ function Modal({ children, title }) {
 
               <footer className={ styles['modal__footer'] }>
                 {
-                  cart.length ? (
+                  (cart.length && !isCheckoutVisible) ? (
                     <Fragment>
                       <Button className="button--bordered" onHandleClick={ handleClearCart }>Clear</Button>
 

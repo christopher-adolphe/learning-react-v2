@@ -13,7 +13,7 @@ const SimpleInput = (props) => {
   let isFormValid = false;
   const isNameValid = formData.name.value.trim() !== '';
   const isNameInvalid = !isNameValid && formData.name.isTouched;
-  const isEmailValid = formData.email.value.trim() !== '' && formData.email.value.trim().match(regExp);
+  const isEmailValid = formData.email.value.trim() !== '' && regExp.test(formData.email.value.trim());
   const isEmailInvalid = !isEmailValid && formData.name.isTouched;
 
   if (isNameValid && isEmailValid) {

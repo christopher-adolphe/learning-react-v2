@@ -1,15 +1,15 @@
 import React, { useContext } from 'react';
-
-import config from '../../config.json';
+import PropTypes from 'prop-types';
 
 import AppContext from '../../context/AppContext';
 
-import { useInput, useHttp } from '../../hooks';
+import { useInput } from '../../hooks';
 
 import { Button } from '..';
 
 import styles from './Checkout.module.css';
 
+const onlyAlphabeticRegExp = /^[A-Za-z -]+$/;
 const onlyNumberRegExp = /^[0-9]*$/;
 
 const notEmptyFieldValidator = (value) => {
@@ -23,7 +23,7 @@ const notEmptyFieldValidator = (value) => {
 const stringFieldValidator = (value) => {
   const trimmed = value.trim();
 
-  if (onlyNumberRegExp.test(trimmed)) {
+  if (!onlyAlphabeticRegExp.test(trimmed)) {
     return 'Should contain letters only!';
   }
 
@@ -40,9 +40,18 @@ const numberFieldValidator = (value) => {
   return null;
 };
 
-function Checkout() {
-  const { cart, onRemoveAll, onGetCartTotal, onToggleCheckout, onCheckoutComplete } = useContext(AppContext);
-  const { isLoading, error, sendRequest: postOrder } = useHttp();
+const maxLengthValidator = (value) => {
+  const trimmed = value.trim();
+
+  if (trimmed.length !== 5) {
+    return 'Should contain 5 digits';
+  }
+
+  return null;
+}
+
+function Checkout({ onProcessOrder }) {
+  const { onToggleCheckout } = useContext(AppContext);
 
   const {
     input: nameInput,
@@ -107,7 +116,7 @@ function Checkout() {
 
       case 'postalCode':
         handlePostalCodeBlur();
-        handlePostalCodeValidation(notEmptyFieldValidator, numberFieldValidator);
+        handlePostalCodeValidation(notEmptyFieldValidator, numberFieldValidator, maxLengthValidator);
 
         break;
 
@@ -129,18 +138,7 @@ function Checkout() {
     handleCityReset();
   };
 
-  const getOrderDate = () => {
-    const orderDate = new Date();
-    const day = `${orderDate.getDate()}`.padStart(2, 0);
-    const month = `${orderDate.getMonth() + 1}`.padStart(2, 0);
-    const year = `${orderDate.getFullYear()}`;
-
-    return `${day}/${month}/${year}`;
-  };
-
-  const handleOrderResponse = (data) => {
-    return data.name;
-  };
+  
 
   const handleCancel = (event) => {
     event.stopPropagation();
@@ -157,29 +155,12 @@ function Checkout() {
       return;
     }
 
-    const order = {
+    const checkoutDetails = {
       client: nameInput.value,
-      address: `${streetInput.value}, ${cityInput.value}, ${postalCodeInput.value}`,
-      items: [ ...cart ],
-      total: onGetCartTotal(),
-      date: getOrderDate()
+      address: `${streetInput.value}, ${cityInput.value}, ${postalCodeInput.value}`
     }
 
-    console.log('handleConfirm called. Sending order..., ', order);
-
-    postOrder({
-      url: `${config.apiEndpoint}/orders.json`,
-      headers: { 'Content-Type': 'application/json' },
-      body: order
-    }, handleOrderResponse);
-
-    if (error) {
-      return;
-    }
-
-    onRemoveAll();
-    onToggleCheckout();
-    onCheckoutComplete();
+    onProcessOrder(checkoutDetails);
     resetCheckoutForm();
   };
 
@@ -268,5 +249,9 @@ function Checkout() {
     </form>
   );
 }
+
+Checkout.propTypes = {
+  onProcessOrder: PropTypes.func.isRequired
+};
 
 export default Checkout;

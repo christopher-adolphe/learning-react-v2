@@ -46,3 +46,9 @@
   margin: 0;
   text-align: center;
 }
+
+.cart__loader {
+  width: 2.75rem;
+  height: 2.75rem;
+  margin: 0 auto;
+}

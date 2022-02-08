@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 
-import { ACTIONS } from '../store/index';
+// import { ACTIONS } from '../store/index';
+import { counterActions } from '../store/index';
 
 import classes from './Counter.module.css';
 
@@ -24,19 +25,30 @@ const Counter = () => {
   const dispatch = useDispatch();
 
   const handleIncrement = () => {
-    dispatch({ type: ACTIONS.INCREMENT });
+    // dispatch({ type: ACTIONS.INCREMENT });
+
+    // Using the actions created by @redux/toolkit. Each action
+    // will map to a corresponding the reducer function which can
+    // be called as a method on the action
+    dispatch(counterActions.increment());
   };
 
   const handleIncrease = () => {
-    dispatch({ type: ACTIONS.INCREASE, payload: { incrementStep: 5 } });
+    // dispatch({ type: ACTIONS.INCREASE, payload: { incrementStep: 5 } });
+
+    dispatch(counterActions.increase({ incrementStep: 5 }));
   };
 
   const handleDecrement = () => {
-    dispatch({ type: ACTIONS.DECREMENT });
+    // dispatch({ type: ACTIONS.DECREMENT });
+
+    dispatch(counterActions.decrement());
   };
 
   const handleToggleCounter = () => {
-    dispatch({ type: ACTIONS.TOGGLE_COUNTER });
+    // dispatch({ type: ACTIONS.TOGGLE_COUNTER });
+
+    dispatch(counterActions.toggleCounter());
   };
 
   return (

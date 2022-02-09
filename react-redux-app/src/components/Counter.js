@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 
-// import { ACTIONS } from '../store/index';
-import { counterActions } from '../store/index';
+// import { ACTIONS } from '../store/redux-store';
+import { counterActions } from '../store/counter';
 
 import classes from './Counter.module.css';
 
@@ -14,14 +14,14 @@ const Counter = () => {
   // automatically sets up a subscription to the store such
   // that the component will receive the latest snapshot of
   // the part of the state it is interested with
-  const counter = useSelector(state => state.counter);
+  const counter = useSelector(state => state.counter.counter);
   
-  const isCounterVisible = useSelector(state => state.isCounterVisible);
+  const isCounterVisible = useSelector(state => state.counter.isCounterVisible);
 
   // Using the `useDispatch()` hook method to dispatch actions
   // to the store so that we can update the state. It returns
-  // a dispatch function that inside the component to dispatch
-  // actions
+  // a dispatch function which is used inside the component to
+  // dispatch actions
   const dispatch = useDispatch();
 
   const handleIncrement = () => {

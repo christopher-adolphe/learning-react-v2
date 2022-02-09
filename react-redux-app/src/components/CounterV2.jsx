@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { ACTIONS } from '../store/index';
+// import { ACTIONS } from '../store/redux-store';
+import { counterActions } from '../store/counter';
 
 import classes from './Counter.module.css';
 
@@ -18,23 +19,29 @@ class CounterV2 extends Component {
     onDecrement();
   };
 
-  handleToggleCounter() {}
+  handleToggleCounter() {
+    const { onToggleCounter } = this.props;
+
+    onToggleCounter();
+  }
 
   render() {
-    const { counter } = this.props;
+    const { counter, isCounterVisible } = this.props;
 
     return (
       <main className={classes.counter}>
         <h1>Redux Counter - Class-base Component</h1>
 
-        <div className={classes.value}>{ counter }</div>
+        {
+          isCounterVisible ? <div className={classes.value}>{ counter }</div> : null
+        }
 
         <div>
           <button onClick={ this.handleIncrement.bind(this) }>Increment</button>
           <button onClick={ this.handleDecrement }>Decrement</button>
         </div>
 
-        <button onClick={ this.handleToggleCounter }>Toggle Counter</button>
+        <button onClick={ this.handleToggleCounter.bind(this) }>Toggle Counter</button>
       </main>
     );
   }
@@ -44,16 +51,24 @@ class CounterV2 extends Component {
 // then be used in the class-based component
 const mapStateToProps = (state) => {
   return {
-    counter: state.counter
+    counter: state.counter.counter,
+    isCounterVisible: state.counter.isCounterVisible
   };
 };
 
 // Creating a function to map the store dispatch function to props
 // that can then be used in the class-based component
 const mapDispatchToProps = (dispatch) => {
+  // return {
+  //   onIncrement: () => dispatch({ type: ACTIONS.INCREMENT }),
+  //   onDecrement: () => dispatch({ type: ACTIONS.DECREMENT }),
+  //   onToggleCounter: () => dispatch({ type: ACTIONS.TOGGLE_COUNTER })
+  // }
+
   return {
-    onIncrement: () => dispatch({ type: ACTIONS.INCREMENT }),
-    onDecrement: () => dispatch({ type: ACTIONS.DECREMENT })
+    onIncrement: () => dispatch(counterActions.increment()),
+    onDecrement: () => dispatch(counterActions.decrement()),
+    onToggleCounter: () => dispatch(counterActions.toggleCounter())
   }
 };
 

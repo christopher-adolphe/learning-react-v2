@@ -9,12 +9,12 @@ const CartItem = ({ item }) => {
 
   const { id, title, quantity, total, price } = item;
 
-  const handleIncrementItem = () => {
-    dispatch(cartActions.incrementCartItem({ id }));
+  const handleAddItem = () => {
+    dispatch(cartActions.addToCart({ newItem: item }));
   };
 
-  const handleDecrementItem = () => {
-    dispatch(cartActions.decrementCartItem({ id }));
+  const handleRemoveItem = () => {
+    dispatch(cartActions.removeFromCart({ id }));
   };
 
   return (
@@ -31,8 +31,8 @@ const CartItem = ({ item }) => {
           x <span>{quantity}</span>
         </div>
         <div className={classes.actions}>
-          <button type="button" onClick={ handleDecrementItem }>-</button>
-          <button type="button" onClick={ handleIncrementItem }>+</button>
+          <button type="button" onClick={ handleRemoveItem }>-</button>
+          <button type="button" onClick={ handleAddItem }>+</button>
         </div>
       </div>
     </li>

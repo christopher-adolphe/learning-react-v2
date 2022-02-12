@@ -2,7 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   cart: [],
-  isCartVisible: false
+  isCartVisible: false,
+  totalQuantity: 0
 };
 
 const cartSlice = createSlice({
@@ -14,21 +15,19 @@ const cartSlice = createSlice({
       const existingItem = state.cart.find(item => item.id === newItem.id);
 
       if (existingItem) {
-        return;
+        const itemIdx = state.cart.findIndex(item => item.id === newItem.id);
+
+        state.cart[itemIdx].quantity += 1;
+
+        const { price, quantity } = state.cart[itemIdx];
+        state.cart[itemIdx].total = price * quantity;
+      } else {
+        state.cart.push(newItem);
       }
       
-      state.cart.push(newItem);
+      state.totalQuantity = state.cart.reduce((prevVal, item) => prevVal + item.quantity, 0);
     },
-    incrementCartItem(state, action) {
-      const { id } = action.payload;
-      const itemIdx = state.cart.findIndex(item => item.id === id);
-
-      state.cart[itemIdx].quantity += 1;
-
-      const { price, quantity } = state.cart[itemIdx];
-      state.cart[itemIdx].total = price * quantity;
-    },
-    decrementCartItem(state, action) {
+    removeFromCart(state, action) {
       const { id } = action.payload;
       const itemIdx = state.cart.findIndex(item => item.id === id);
       const { quantity } = state.cart[itemIdx];
@@ -42,6 +41,8 @@ const cartSlice = createSlice({
         const { price, quantity } = state.cart[itemIdx];
         state.cart[itemIdx].total = price * quantity;
       }
+
+      state.totalQuantity = state.cart.reduce((prevVal, item) => prevVal + item.quantity, 0);
     },
     toggleCart(state) {
       state.isCartVisible = !state.isCartVisible;

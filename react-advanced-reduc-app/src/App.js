@@ -1,16 +1,21 @@
-import { useEffect, useCallback } from 'react';
+import { Fragment, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import config from './config.json';
 
+import { uiActions } from './store';
 import { productsActions } from './store';
 
+import Notification from './components/UI/Notification';
 import Cart from './components/Cart/Cart';
 import Layout from './components/Layout/Layout';
 import Products from './components/Shop/Products';
 
+let isFirstInit = true;
+
 function App() {
-  const { items, isCartVisible } = useSelector(({ cart }) => cart);
+  const { isCartVisible, notification } = useSelector(({ ui }) => ui);
+  const { items } = useSelector(({ cart }) => cart);
 
   const dispatch = useDispatch();
 
@@ -26,12 +31,6 @@ function App() {
   }, [dispatch]);
 
   useEffect(() => {
-    fetch(`${config.apiEndpoint}/cart.json`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(items)
-    });
-
     const getProducts = async (handleGetProducts) => {
       try {
         const response = await fetch(`${config.apiEndpoint}/products.json`);
@@ -49,15 +48,61 @@ function App() {
     };
 
     getProducts(handleGetProducts);
-  }, [items, handleGetProducts]);
+
+    if (isFirstInit) {
+      isFirstInit = false;
+
+      return;
+    }
+
+    const updateCart = async () => {
+      try {
+        dispatch(uiActions.toggleNotificationBar({
+          status: 'pending',
+          title: 'Sending...',
+          message: 'Sending cart data!'
+        }));
+
+        const response = await fetch(`${config.apiEndpoint}/cart.json`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(items)
+        });
+
+        if (!response.ok) {
+          throw new Error('Sorry, an error occurred while saving cart data');
+        }
+        
+        dispatch(uiActions.toggleNotificationBar({
+          status: 'success',
+          title: 'Success!',
+          message: 'Cart data sent successfully!'
+        }));
+      } catch (error) {
+        dispatch(uiActions.toggleNotificationBar({
+          status: 'error',
+          title: 'Error!',
+          message: 'Sending cart data failed!'
+        }));
+      }
+    };
+
+    updateCart();
+  }, [items, handleGetProducts, dispatch]);
 
   return (
-    <Layout>
+    <Fragment>
       {
-        isCartVisible ? <Cart /> : null
+        notification !== null ? <Notification status={ notification.status } title={ notification.title } message={ notification.message } /> : null
       }
-      <Products />
-    </Layout>
+
+      <Layout>
+        {
+          isCartVisible ? <Cart /> : null
+        }
+        <Products />
+      </Layout>
+    </Fragment>
   );
 }
 

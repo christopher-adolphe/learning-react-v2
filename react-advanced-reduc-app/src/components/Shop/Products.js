@@ -5,7 +5,7 @@ import ProductItem from './ProductItem';
 import classes from './Products.module.css';
 
 const Products = (props) => {
-  const products = useSelector(({ productsSlice }) => productsSlice.products);
+  const products = useSelector(({ products }) => products.items);
 
   return (
     <section className={classes.products}>

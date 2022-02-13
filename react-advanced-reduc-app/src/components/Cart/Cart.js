@@ -6,7 +6,7 @@ import CartItem from './CartItem';
 import classes from './Cart.module.css';
 
 const Cart = (props) => {
-  const cart = useSelector(({ cartSlice }) => cartSlice.cart);
+  const cart = useSelector(({ cart }) => cart.items);
 
   return (
     <Card className={classes.cart}>

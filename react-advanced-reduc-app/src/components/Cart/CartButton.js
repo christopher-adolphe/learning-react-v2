@@ -5,7 +5,7 @@ import { cartActions } from '../../store';
 import classes from './CartButton.module.css';
 
 const CartButton = (props) => {
-  const quantity = useSelector(({ cartSlice }) => cartSlice.totalQuantity);
+  const quantity = useSelector(({ cart }) => cart.totalQuantity);
 
   const dispatch = useDispatch();
 

@@ -3,8 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import config from './config.json';
 
-import { uiActions } from './store';
 import { productsActions } from './store';
+import { sendCartData, fetchCartData } from './store';
 
 import Notification from './components/UI/Notification';
 import Cart from './components/Cart/Cart';
@@ -28,6 +28,10 @@ function App() {
     })) : [];
 
     dispatch(productsActions.loadProducts({ items: productsData }));
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchCartData());
   }, [dispatch]);
 
   useEffect(() => {
@@ -55,39 +59,44 @@ function App() {
       return;
     }
 
-    const updateCart = async () => {
-      try {
-        dispatch(uiActions.toggleNotificationBar({
-          status: 'pending',
-          title: 'Sending...',
-          message: 'Sending cart data!'
-        }));
+    // NOTE: Logic moved to an action creator function inside the
+    // cart.js file
+    // const updateCart = async () => {
+    //   try {
+    //     dispatch(uiActions.toggleNotificationBar({
+    //       status: 'pending',
+    //       title: 'Sending...',
+    //       message: 'Sending cart data!'
+    //     }));
 
-        const response = await fetch(`${config.apiEndpoint}/cart.json`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(items)
-        });
+    //     const response = await fetch(`${config.apiEndpoint}/cart.json`, {
+    //       method: 'PUT',
+    //       headers: { 'Content-Type': 'application/json' },
+    //       body: JSON.stringify(items)
+    //     });
 
-        if (!response.ok) {
-          throw new Error('Sorry, an error occurred while saving cart data');
-        }
+    //     if (!response.ok) {
+    //       throw new Error('Sorry, an error occurred while saving cart data');
+    //     }
         
-        dispatch(uiActions.toggleNotificationBar({
-          status: 'success',
-          title: 'Success!',
-          message: 'Cart data sent successfully!'
-        }));
-      } catch (error) {
-        dispatch(uiActions.toggleNotificationBar({
-          status: 'error',
-          title: 'Error!',
-          message: 'Sending cart data failed!'
-        }));
-      }
-    };
+    //     dispatch(uiActions.toggleNotificationBar({
+    //       status: 'success',
+    //       title: 'Success!',
+    //       message: 'Cart data sent successfully!'
+    //     }));
+    //   } catch (error) {
+    //     dispatch(uiActions.toggleNotificationBar({
+    //       status: 'error',
+    //       title: 'Error!',
+    //       message: 'Sending cart data failed!'
+    //     }));
+    //   }
+    // };
 
-    updateCart();
+    // updateCart();
+
+    // Dispatching the custom action creator function
+    dispatch(sendCartData(items));
   }, [items, handleGetProducts, dispatch]);
 
   return (

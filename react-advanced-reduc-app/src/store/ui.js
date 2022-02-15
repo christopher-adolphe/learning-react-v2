@@ -13,15 +13,12 @@ const uiSlice = createSlice({
       state.isCartVisible = !state.isCartVisible;
     },
     toggleNotificationBar(state, action) {
-      const payload = action;
-
-      if (payload === null) {
-        state.notification = null;
-      } else {
-        const { status, title, message } = payload;
+      const { status, title, message } = action.payload;
   
-        state.notification = { status, title, message };
-      }
+      state.notification = { status, title, message };
+    },
+    dismissNotificationVar(state) {
+      state.notification = null
     }
   }
 });

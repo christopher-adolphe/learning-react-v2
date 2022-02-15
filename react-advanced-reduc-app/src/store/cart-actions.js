@@ -41,8 +41,12 @@ export const sendCartData = (items) => {
       dispatch(uiActions.toggleNotificationBar({
         status: 'error',
         title: 'Error!',
-        message: 'Sending cart data failed!'
+        message: `Sending cart data failed! ${error.message}`
       }));
+    } finally {
+      setTimeout(() => {
+        dispatch(uiActions.dismissNotificationVar());
+      }, 2000);
     }
   };
 }
@@ -63,8 +67,12 @@ export const fetchCartData = () => {
       dispatch(uiActions.toggleNotificationBar({
         status: 'error',
         title: 'Error!',
-        message: 'Fetching cart data failed!'
+        message: `Fetching cart data failed! ${error.message}`
       }));
+    } finally {
+      setTimeout(() => {
+        dispatch(uiActions.dismissNotificationVar());
+      }, 2000);
     }
   };
 }

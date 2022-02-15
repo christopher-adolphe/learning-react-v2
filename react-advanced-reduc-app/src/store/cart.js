@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   items: [],
   isCartVisible: false,
-  totalQuantity: 0
+  totalQuantity: 0,
+  hasChanged: false
 };
 
 const cartSlice = createSlice({
@@ -11,9 +12,10 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     loadCart(state, action) {
-      const { items } = action.payload;
-
-      state.items = [ ...items ];
+      const savedItems = action.payload || [];
+      
+      state.items = [ ...savedItems ];
+      state.totalQuantity = state.items.reduce((prevVal, item) => prevVal + item.quantity, 0);
     },
     addToCart(state, action) {
       const { newItem } = action.payload;
@@ -31,6 +33,7 @@ const cartSlice = createSlice({
       }
       
       state.totalQuantity = state.items.reduce((prevVal, item) => prevVal + item.quantity, 0);
+      state.hasChanged = true;
     },
     removeFromCart(state, action) {
       const { id } = action.payload;
@@ -48,6 +51,7 @@ const cartSlice = createSlice({
       }
 
       state.totalQuantity = state.items.reduce((prevVal, item) => prevVal + item.quantity, 0);
+      state.hasChanged = true;
     },
     toggleCart(state) {
       state.isCartVisible = !state.isCartVisible;

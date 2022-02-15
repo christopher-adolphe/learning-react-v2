@@ -15,7 +15,8 @@ let isFirstInit = true;
 
 function App() {
   const { isCartVisible, notification } = useSelector(({ ui }) => ui);
-  const { items } = useSelector(({ cart }) => cart);
+
+  const { items, hasChanged } = useSelector(({ cart }) => cart);
 
   const dispatch = useDispatch();
 
@@ -28,10 +29,6 @@ function App() {
     })) : [];
 
     dispatch(productsActions.loadProducts({ items: productsData }));
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(fetchCartData());
   }, [dispatch]);
 
   useEffect(() => {
@@ -53,6 +50,10 @@ function App() {
 
     getProducts(handleGetProducts);
 
+    dispatch(fetchCartData());
+  }, [dispatch, handleGetProducts]);
+
+  useEffect(() => {
     if (isFirstInit) {
       isFirstInit = false;
 
@@ -95,9 +96,12 @@ function App() {
 
     // updateCart();
 
-    // Dispatching the custom action creator function
-    dispatch(sendCartData(items));
-  }, [items, handleGetProducts, dispatch]);
+    if (hasChanged) {
+      // Dispatching an action creator function to
+      // handle state related logics with side effect
+      dispatch(sendCartData(items));
+    }
+  }, [items, hasChanged, dispatch]);
 
   return (
     <Fragment>

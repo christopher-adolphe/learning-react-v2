@@ -25,7 +25,7 @@ const Products = (props) => {
               ))
             }
           </ul>
-        ) : <p>Sorry, there are no products!</p>
+        ) : <p className={ classes.message }>Sorry, there are no products!</p>
       }
     </section>
   );

@@ -1,9 +1,12 @@
 import { useState } from 'react';
 
-import classes from './Comments.module.css';
-import NewCommentForm from './NewCommentForm';
+import { commentsService } from '../../services';
 
-const Comments = () => {
+import { NewCommentForm, CommentsList } from '../';
+
+import classes from './Comments.module.css';
+
+const Comments = ({ quoteId }) => {
   const [isAddingComment, setIsAddingComment] = useState(false);
 
   const startAddCommentHandler = () => {
@@ -19,7 +22,8 @@ const Comments = () => {
         </button>
       )}
       {isAddingComment && <NewCommentForm />}
-      <p>Comments...</p>
+      
+      <CommentsList comments={ commentsService.getComments(quoteId) } />
     </section>
   );
 };

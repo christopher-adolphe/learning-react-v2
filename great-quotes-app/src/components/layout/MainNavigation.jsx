@@ -11,7 +11,7 @@ function MainNavigation(props) {
       <nav className={ styles.nav }>
         <ul>
           <li>
-            <NavLink to="/all-quotes" activeClassName={ styles.active }>All Quotes</NavLink>
+            <NavLink to="/quotes" activeClassName={ styles.active }>All Quotes</NavLink>
           </li>
           <li>
             <NavLink to="/add-quote" activeClassName={ styles.active }>Add a Quote</NavLink>

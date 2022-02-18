@@ -1,4 +1,4 @@
-const fakeQuotes = [
+const quotesMock = [
   {
     id: 'q1',
     author: 'Oprah Winfrey',
@@ -8,15 +8,27 @@ const fakeQuotes = [
     id: 'q2',
     author: 'Walt Disney',
     text: 'The way to get started is to quit talking and begin doing.'
+  },
+  {
+    id: 'q3',
+    author: 'Dalai Lama',
+    text: 'The purpose of our lives is to be happy.'
   }
 ];
 
 export const getQuotes = () => {
-  return fakeQuotes;
+  return [ ...quotesMock ];
 };
 
 export const getQuote = (id) => {
-  const quote = fakeQuotes.find(quote => quote.id === id);
+  const quote = quotesMock.find(quote => quote.id === id);
 
   return quote;
 }
+
+const quotesService = {
+  getQuotes,
+  getQuote
+};
+
+export default quotesService;

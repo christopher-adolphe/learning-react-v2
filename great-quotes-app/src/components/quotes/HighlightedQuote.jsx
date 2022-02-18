@@ -1,26 +1,19 @@
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-
-import { getQuote } from '../../services/quotes-service';
+import React, { Fragment } from 'react';
 
 import classes from './HighlightedQuote.module.css';
 
-const HighlightedQuote = (props) => {
-  const params = useParams();
-
-  const [ quote, setQuote ] = useState(null)
-
-  useEffect(() => {
-    const quote = getQuote(params.id);
-
-    setQuote(quote)
-  }, [params]);
-
+const HighlightedQuote = ({ quote }) => {
   return (
-    <figure className={classes.quote}>
-      <p>{ quote ? quote.text : '' }</p>
-      <figcaption>{ quote ? quote.author : '' }</figcaption>
-    </figure>
+    <Fragment>
+      {
+        quote ? (
+          <figure className={classes.quote}>
+            <p>{ quote.text }</p>
+            <figcaption>{ quote.author }</figcaption>
+          </figure>
+        ) : <h3>Sorry, we could not find the requested quote!</h3>
+      }
+    </Fragment>
   );
 };
 

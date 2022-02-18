@@ -4,7 +4,7 @@ import Card from '../UI/Card';
 import LoadingSpinner from '../UI/LoadingSpinner';
 import classes from './QuoteForm.module.css';
 
-const QuoteForm = (props) => {
+const QuoteForm = ({ isLoading, onAddQuote }) => {
   const authorInputRef = useRef();
   const textInputRef = useRef();
 
@@ -16,13 +16,13 @@ const QuoteForm = (props) => {
 
     // optional: Could validate here
 
-    props.onAddQuote({ author: enteredAuthor, text: enteredText });
+    onAddQuote({ author: enteredAuthor, text: enteredText });
   }
 
   return (
     <Card>
       <form className={classes.form} onSubmit={submitFormHandler}>
-        {props.isLoading && (
+        {isLoading && (
           <div className={classes.loading}>
             <LoadingSpinner />
           </div>

@@ -26,6 +26,8 @@ function NewQuote(props) {
       the current page with the new page in the stack history
       and therefore the user cannot navigate to a previously
       visited page by using the browser's back button.
+      NOTE: Both `push()` and `replace()` methods take string
+      argument representing the path we want to navigate to
     */
     history.push('/quotes');
   }

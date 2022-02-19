@@ -39,7 +39,17 @@ const QuoteList = ({ quotes }) => {
       Using the history object to navigate to a
       path with a query parameter
     */
-    history.push(`/quotes?sort=${ isSortingAscending ? 'desc' : 'asc'}`);
+    // history.push(`${location.pathname}?sort=${ isSortingAscending ? 'desc' : 'asc'}`);
+
+    /*
+      An alternative way to define route we want to
+      navigate to is to pass an object to the `push()`
+      method
+    */
+    history.push({
+      pathname: location.pathname,
+      search: `sort=${ isSortingAscending ? 'desc' : 'asc'}`
+    });
   };
 
   return (

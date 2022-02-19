@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+
+import useHttp from '../hooks/use-http';
+import { addQuote } from '../lib/api';
 
 import { QuoteForm } from '../components';
 
+
 function NewQuote(props) {
+  const { sendRequest, status } = useHttp(addQuote);
   /*
     Using the `useHistory()` hook from `react-router-dom` to
     access the browser history so that we can trigger history
@@ -12,10 +17,9 @@ function NewQuote(props) {
   */
   const history = useHistory();
 
-  const handleAddQuote = (quote) => {
-    console.log('handleAddQuote called... ', quote);
-
-    /*
+  useEffect(() => {
+    if (status === 'completed') {
+      /*
       The history object has a `push()` method which is used to
       navigate to a new page. This method pushes a new page on
       the stack of pages that have been visited and therefore
@@ -30,10 +34,16 @@ function NewQuote(props) {
       argument representing the path we want to navigate to
     */
     history.push('/quotes');
+    }
+  }, [status, history]);
+
+  const handleAddQuote = (quote) => {
+    console.log('handleAddQuote called... ', quote);
+    sendRequest(quote);
   }
   return (
     <section>
-      <QuoteForm onAddQuote={ handleAddQuote } />
+      <QuoteForm isLoading={ status === 'pending' } onAddQuote={ handleAddQuote } />
     </section>
   );
 }

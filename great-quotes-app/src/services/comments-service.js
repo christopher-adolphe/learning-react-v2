@@ -2,7 +2,7 @@ const commentsMock = [
   {
     id: 'cmt1',
     quoteId: 'q1',
-    text: 'Oh, this quote is so inpiring. I love it.'
+    text: 'Oh, this quote is so inspiring. I love it.'
   },
   {
     id: 'cmt2',

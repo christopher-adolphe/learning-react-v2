@@ -1,12 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Route, Link, useParams, useRouteMatch } from 'react-router-dom';
 
-import { getQuote } from '../services/quotes-service';
+import useHttp from '../hooks/use-http';
+import { getSingleQuote } from '../lib/api';
 
-import { HighlightedQuote, Comments } from '../components';
+// import { getQuote } from '../services/quotes-service';
+
+import { HighlightedQuote, Comments, LoadingSpinner } from '../components';
 
 function Quote(props) {
+  const { sendRequest, status, data: loadedQuote, error } = useHttp(getSingleQuote, true);
+
   const params = useParams();
+
+  const { id } = params;
 
   /*
     Using the `useRouteMatch()` hook from `react-router-dom` to
@@ -19,17 +26,30 @@ function Quote(props) {
   */
   const match = useRouteMatch();
 
-  const [ quote, setQuote ] = useState(null);
 
   useEffect(() => {
-    const quote = getQuote(params.id);
+    sendRequest(id);
+  }, [sendRequest, id]);
 
-    setQuote(quote)
-  }, [params]);
+  if (status === 'pending') {
+    return (
+      <div className="centered">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
+  if (error) {
+    return <p className="centered focused">{ error }</p>;
+  }
+
+  if (!loadedQuote.text) {
+    return <p className="centered focused">No quote found!</p>;
+  }
 
   return (
     <section>
-      <HighlightedQuote quote={ quote } />
+      <HighlightedQuote quote={ loadedQuote } />
 
       {/*
         Using the `<Route>` component from `react-router-dom` to

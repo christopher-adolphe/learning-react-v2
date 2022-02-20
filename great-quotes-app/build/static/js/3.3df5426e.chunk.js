@@ -1,0 +1,2 @@
+(this["webpackJsonpreact-complete-guide"]=this["webpackJsonpreact-complete-guide"]||[]).push([[3],{54:function(e,t,c){"use strict";c.r(t);var n=c(1),s=c(2),o=c(16),u=c(17),i=c(19),d=c(0);t.default=function(e){var t=Object(o.a)(u.b),c=t.sendRequest,a=t.status,l=Object(s.h)();return Object(n.useEffect)((function(){"completed"===a&&l.push("/quotes")}),[a,l]),Object(d.jsx)("section",{children:Object(d.jsx)(i.i,{isLoading:"pending"===a,onAddQuote:function(e){console.log("handleAddQuote called... ",e),c(e)}})})}}}]);
+//# sourceMappingURL=3.3df5426e.chunk.js.map

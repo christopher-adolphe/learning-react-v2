@@ -1,12 +1,17 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useContext } from 'react';
+
+import AppContext from '../../context/AppContext';
 
 import classes from './AuthForm.module.css';
 
-const API_KEY = '';
-const SIGNUP_URL = ``;
+const API_KEY = 'AIzaSyBlCIuSUawupQYqSsxVg972q1e1t7GhsTU';
+const SIGNUP_URL = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`;
+const SIGNIN_URL = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API_KEY}`;
 
 const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
+  const [ isLoading, setIsLoading ] = useState(false);
+  const { onLogin } = useContext(AppContext);
   const email = useRef(null);
   const password = useRef(null)
 
@@ -23,28 +28,69 @@ const AuthForm = () => {
       returnSecureToken: true
     };
 
+    const requestConfig = {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(requestPayload)
+    };
+
     console.log('submitHandler called: ', requestPayload);
 
+    setIsLoading(true);
+
     if (isLogin) {
-
-    } else {
       try {
-        const signUpResponse = await fetch(SIGNUP_URL, {
-          method: 'POST',
-          headers: { 
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(requestPayload)
-        });
+        const signinResponse = await fetch(SIGNIN_URL, requestConfig);
 
-        if (!signUpResponse.ok) {
-          const { error } = await signUpResponse.json();
-          throw new Error(`Sorry, an error occurred during the signup process! ${error.message}`);
+        setIsLoading(false);
+
+        if (!signinResponse.ok) {
+          let errorMessage = 'Sorry, an error occurred during the signin process!';
+
+          const { error } = await signinResponse.json();
+
+          if (error && error.message) {
+            errorMessage = error.message;
+
+            alert(errorMessage);
+
+            throw new Error(errorMessage);
+          }
         }
 
-        const signUpData = await signUpResponse.json();
+        const signinData = await signinResponse.json();
 
-        console.log('signUpData: ', signUpData);
+        console.log('signinData: ', signinData);
+
+        onLogin(signinData.idToken);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      try {
+        const signupResponse = await fetch(SIGNUP_URL, requestConfig);
+
+        setIsLoading(false);
+
+        if (!signupResponse.ok) {
+          let errorMessage = 'Sorry, an error occurred during the signup process!';
+
+          const { error } = await signupResponse.json();
+
+          if (error && error.message) {
+            errorMessage = error.message;
+
+            alert(errorMessage);
+
+            throw new Error(errorMessage);
+          }
+        }
+
+        const signupData = await signupResponse.json();
+
+        console.log('signupData: ', signupData);
       } catch (error) {
         console.log(error);
       }
@@ -64,7 +110,10 @@ const AuthForm = () => {
           <input type='password' id='password' ref={ password } required />
         </div>
         <div className={classes.actions}>
-          <button>{isLogin ? 'Login' : 'Create Account'}</button>
+          {
+            isLoading ? (<p>Loading...</p>) : (<button>{isLogin ? 'Login' : 'Create Account'}</button>)
+          }
+          
           <button
             type='button'
             className={classes.toggle}

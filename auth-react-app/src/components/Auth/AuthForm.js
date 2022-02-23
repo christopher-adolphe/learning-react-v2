@@ -1,4 +1,5 @@
 import { useState, useRef, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import AppContext from '../../context/AppContext';
 
@@ -9,9 +10,10 @@ const SIGNUP_URL = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?ke
 const SIGNIN_URL = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API_KEY}`;
 
 const AuthForm = () => {
+  const { onLogin } = useContext(AppContext);
+  const history = useHistory();
   const [isLogin, setIsLogin] = useState(true);
   const [ isLoading, setIsLoading ] = useState(false);
-  const { onLogin } = useContext(AppContext);
   const email = useRef(null);
   const password = useRef(null)
 
@@ -65,6 +67,8 @@ const AuthForm = () => {
         console.log('signinData: ', signinData);
 
         onLogin(signinData.idToken);
+
+        history.replace('/');
       } catch (error) {
         console.log(error);
       }
@@ -91,6 +95,8 @@ const AuthForm = () => {
         const signupData = await signupResponse.json();
 
         console.log('signupData: ', signupData);
+
+        history.replace('/');
       } catch (error) {
         console.log(error);
       }

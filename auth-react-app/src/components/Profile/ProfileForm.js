@@ -1,4 +1,4 @@
-import { useContext, useRef, useEffect } from 'react';
+import { useContext, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import AppContext from '../../context/AppContext';
@@ -12,12 +12,6 @@ const ProfileForm = () => {
   const { token } = useContext(AppContext);
   const history = useHistory();
   const newPassword = useRef(null);
-
-  useEffect(() => {
-    if (!token) {
-      history.replace('/auth');
-    }
-  }, [token, history]);
 
   const submitHandler = async (event) => {
     event.preventDefault();

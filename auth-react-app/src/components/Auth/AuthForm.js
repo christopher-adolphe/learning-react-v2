@@ -5,7 +5,7 @@ import AppContext from '../../context/AppContext';
 
 import classes from './AuthForm.module.css';
 
-const API_KEY = 'AIzaSyBlCIuSUawupQYqSsxVg972q1e1t7GhsTU';
+const API_KEY = '';
 const SIGNUP_URL = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`;
 const SIGNIN_URL = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API_KEY}`;
 
@@ -65,8 +65,11 @@ const AuthForm = () => {
         const signinData = await signinResponse.json();
 
         console.log('signinData: ', signinData);
+        
+        const expirationTime = new Date(new Date().getTime() + (+signinData.expiresIn * 1000));
+        console.log('expirationTime: ', expirationTime.toISOString());
 
-        onLogin(signinData.idToken);
+        onLogin(signinData.idToken, expirationTime.toISOString());
 
         history.replace('/');
       } catch (error) {

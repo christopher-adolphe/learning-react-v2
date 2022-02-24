@@ -6,7 +6,7 @@ import { cartActions } from '.';
 // Creating an action creator function which returns
 // a function instead of the usual action object
 // This returned function is called a `thunk`, it a
-// function that dunbles all the work to be done
+// function that dunbles all the asynchronous work to be done
 // When @redux/toolkit sees that we return a function
 // instead of an action object, it will execute that
 // function and automatically provide it the `dispatch`

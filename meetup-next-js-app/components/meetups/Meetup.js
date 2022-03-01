@@ -1,7 +1,7 @@
 import classes from './Meetup.module.css';
 
 function Meetup({ meetup }) {
-  const { title, image, address, description} = meetup;
+  const { title, image, address, description } = meetup;
   return (
     <section className={ classes.detail }>
       <img src={ image } alt={ title } />

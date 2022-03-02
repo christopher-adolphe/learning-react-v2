@@ -1,7 +1,10 @@
 // import { Fragment } from 'react';
 // import { useRouter } from 'next/router';
+import { MongoClient, ObjectId } from 'mongodb';
 
 import Meetup from '../../components/meetups/Meetup';
+
+const URL = 'mongodb://127.0.0.1:27017/react-meetups';
 
 const MOCK_MEETUPS = [
   {
@@ -50,24 +53,22 @@ function MeetupDetail({ meetup }) {
   exist is passed as routing parameter
 */
 export async function getStaticPaths() {
+  // Fetching data from an API
+  const client = await MongoClient.connect(URL);
+  const db = client.db();
+  const meetupsCollection = db.collection('meetups');
+
+  const meetups = await meetupsCollection.find({}, { _id: 1 }).toArray();
+  const paths = meetups.map(meetup => ({
+    params: {
+      meetupId: meetup._id.toString()
+    }
+  }));
+
+  client.close();
+
   return {
-    paths: [
-      {
-        params: {
-          meetupId: 'm1'
-        }
-      },
-      {
-        params: {
-          meetupId: 'm2'
-        }
-      },
-      {
-        params: {
-          meetupId: 'm3'
-        }
-      },
-    ],
+    paths,
     fallback: true
   };
 }
@@ -81,7 +82,22 @@ export async function getStaticProps(context) {
 
   console.log('getStaticProps - meetupId: ', meetupId);
 
-  const meetup = MOCK_MEETUPS.find(meetup => meetup.id === meetupId);
+  // const meetup = MOCK_MEETUPS.find(meetup => meetup.id === meetupId);
+
+  const client = await MongoClient.connect(URL);
+  const db = client.db();
+  const meetupsCollection = db.collection('meetups');
+
+  const result = await meetupsCollection.findOne({ _id: ObjectId(meetupId) });
+  const meetup = result.map(meetup =>({
+    id: meetup._id.toString(),
+    title: meetup.title,
+    image: meetup.image,
+    address: meetup.address,
+    description: meetup.description
+  }));
+
+  client.close();
 
   return {
     props: {

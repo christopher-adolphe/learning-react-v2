@@ -1,4 +1,5 @@
-// import { useState, useEffect } from 'react';
+import { Fragment } from 'react';
+import Head from 'next/head';
 import { MongoClient } from 'mongodb';
 
 import MeetupList from '../components/meetups/MeetupList';
@@ -35,7 +36,16 @@ function Home({ meetups } ) {
   // useEffect(() => {
   //   setMeetups(MOCK_MEETUPS);
   // }, []);
-  return <MeetupList meetups={ meetups } />;
+  return (
+    <Fragment>
+      <Head>
+        <title>React Meetups</title>
+        <meta name="description" content="Browse a list of worldwide React meetups" />
+      </Head>
+
+      <MeetupList meetups={ meetups } />
+    </Fragment>
+  );
 }
 
 /*

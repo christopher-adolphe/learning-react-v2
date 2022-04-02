@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Output from './Output';
 
 function Greeting(props) {
   const [ isChanged, setIsChanged ] = useState(false);
@@ -13,8 +14,8 @@ function Greeting(props) {
 
       {
         isChanged
-          ? (<p>What's up bro!</p>)
-          : (<p>It's good to see you!</p>)
+          ? (<Output>What's up bro!</Output>)
+          : (<Output>It's good to see you!</Output>)
       }
 
       <button type="button" onClick={ changeTextHandler }>Change Greeting</button>

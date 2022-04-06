@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Card from '../UI/Card';
 import './Search.css';
 
-const Search = React.memo(({ onSearch }) => {
+const Search = React.memo(({ forwardedRef, onSearch }) => {
   const [ search, setSearch ] = useState('');
 
   const changeHandler = (event) => {
@@ -18,7 +18,7 @@ const Search = React.memo(({ onSearch }) => {
       <Card>
         <div className="search-input">
           <label>Filter by Title</label>
-          <input type="text" value={ search } onChange={ changeHandler } />
+          <input type="text" ref={ forwardedRef } value={ search } onChange={ changeHandler } />
         </div>
       </Card>
     </section>

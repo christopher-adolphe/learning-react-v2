@@ -10,6 +10,7 @@ function Ingredients() {
   const [ ingredientLists, setIngredientLists ] = useState([]);
   const [ searchTerm, setSearchTerm ] = useState('');
   const isInitialRender = useRef(true);
+  const searchTermRef = useRef(null);
 
   const addIngredientHandler = async (ingredient) => {
     try {
@@ -59,10 +60,8 @@ function Ingredients() {
   };
 
   const filterIngredients = useCallback(async (term) => {
-    console.log('filterIngredients - term: ', term);
     try {
-      const query = term.length ? '' : `?orderBy="title"&equalTo="${term}"`;
-      console.log('filterIngredients: ', query);
+      const query = term.length ? `?orderBy="title"&equalTo="${term}"` : '';
       const response = await fetch(`${URL}${query}`);
       
       if (response.ok && response.status === 200) {
@@ -101,12 +100,22 @@ function Ingredients() {
    * dependency is changed.
   */
   useEffect(() => {
+    let timeoutId = null;
+
     if (isInitialRender.current) {
-      console.log('This is the initial render, no search applied');
       isInitialRender.current = false;
     } else {
-      console.log('Search term updated: ', searchTerm);
-      filterIngredients(searchTerm);
+      setTimeout(() => {        
+        if (searchTerm === searchTermRef.current.value) {
+          filterIngredients(searchTerm);
+        }
+      }, 1000);
+    }
+
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
     }
   }, [searchTerm, filterIngredients]);
 
@@ -115,7 +124,7 @@ function Ingredients() {
       <IngredientForm onAddIngredient={ addIngredientHandler } />
 
       <section>
-        <Search onSearch={ searchHandler } />
+        <Search forwardedRef={ searchTermRef } onSearch={ searchHandler } />
 
         <IngredientList ingredients={ ingredientLists } onRemoveIngredient={ removeIngredientHandler } />
       </section>

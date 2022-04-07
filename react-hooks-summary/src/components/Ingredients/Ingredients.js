@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 
 import IngredientForm from './IngredientForm';
 import IngredientList from './IngredientList';
+import ErrorModal from '../UI/ErrorModal';
 import Search from './Search';
 
 const URL = '';
@@ -9,11 +10,14 @@ const URL = '';
 function Ingredients() {
   const [ ingredientLists, setIngredientLists ] = useState([]);
   const [ searchTerm, setSearchTerm ] = useState('');
+  const [ isLoading, setIsLoading ] = useState(false);
+  const [ error, setError ] = useState(null);
   const isInitialRender = useRef(true);
   const searchTermRef = useRef(null);
 
   const addIngredientHandler = async (ingredient) => {
     try {
+      setIsLoading(true);
       const response = await fetch(URL, {
         method: 'POST',
         headers: {
@@ -32,11 +36,30 @@ function Ingredients() {
       }
     } catch (error) {
       console.log(error);
+      setError(error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const removeIngredientHandler = (id) => {
-    setIngredientLists((prevState) => prevState.filter(ingredient => ingredient.id !== id));
+  const removeIngredientHandler = async (id) => {
+    try {
+      setIsLoading(true);
+      const response = await fetch(`${id}.json`, {
+        method: 'DELETE'
+      });
+
+      if (response.ok && response.status === 200) {
+        setIngredientLists((prevState) => prevState.filter(ingredient => ingredient.id !== id));
+      } else {
+        throw new Error('Something went wrong while deleting ingredient.');
+      }
+    } catch (error) {
+      console.log(error);
+      setError(error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const getIngredients = async () => {
@@ -84,6 +107,10 @@ function Ingredients() {
     setSearchTerm(term);
   };
 
+  const closeModalHandler = () => {
+    setError(null);
+  }
+
   /*
    * When an empty dependency array is passed as the second argument of the
    * `useEffect()` hook, it will act like the `componentDidMount()` method;
@@ -121,7 +148,9 @@ function Ingredients() {
 
   return (
     <div className="App">
-      <IngredientForm onAddIngredient={ addIngredientHandler } />
+      { error ? <ErrorModal onClose={ closeModalHandler }>{ error }</ErrorModal> : null }
+
+      <IngredientForm onAddIngredient={ addIngredientHandler } isLoading={ isLoading } />
 
       <section>
         <Search forwardedRef={ searchTermRef } onSearch={ searchHandler } />

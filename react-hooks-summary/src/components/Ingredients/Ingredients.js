@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef, useReducer } from 'react';
 
 import IngredientForm from './IngredientForm';
 import IngredientList from './IngredientList';
@@ -7,7 +7,32 @@ import Search from './Search';
 
 const URL = '';
 
+const INGREDIENTS_ACTIONS = {
+  SET: 'SET',
+  ADD: 'ADD',
+  DELETE: 'DELETE'
+};
+
+const ingredientsReducer = (state, action) => {
+  const { type, payload } = action;
+
+  switch (type) {
+    case INGREDIENTS_ACTIONS.SET:
+      return payload.ingredients;
+
+    case INGREDIENTS_ACTIONS.ADD:
+      return [ payload.ingredient, ...state ];
+
+    case INGREDIENTS_ACTIONS.DELETE:
+      return state.filter(ingredient => ingredient.id !== payload.id);
+  
+    default:
+      return state;
+  }
+};
+
 function Ingredients() {
+  const [ ingredients, dispatchIngredients ] = useReducer(ingredientsReducer, []);
   const [ ingredientLists, setIngredientLists ] = useState([]);
   const [ searchTerm, setSearchTerm ] = useState('');
   const [ isLoading, setIsLoading ] = useState(false);

@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 
+import { AuthContext } from '../../context/AuthContext';
 import Card from '../UI/Card';
 import LoadingIndicator from '../UI/LoadingIndicator';
 import './IngredientForm.css';
 
 const IngredientForm = React.memo(({ onAddIngredient, isLoading }) => {
+  const { onLogout } = useContext(AuthContext);
   // const [ formData, setFormData ] = useState({ title: '', amount: '' });
   const [ title, setTitle ] = useState('');
   const [ amount, setAmount ] = useState('');
@@ -43,6 +45,7 @@ const IngredientForm = React.memo(({ onAddIngredient, isLoading }) => {
 
   return (
     <section className="ingredient-form">
+      <button type="button" className="btn-logout" onClick={ onLogout }>Logout</button>
       <Card>
         <form onSubmit={ submitHandler }>
           <div className="form-control">

@@ -11,6 +11,8 @@ const IngredientForm = React.memo(({ onAddIngredient, isLoading }) => {
   const [ title, setTitle ] = useState('');
   const [ amount, setAmount ] = useState('');
 
+  console.log('IngredientForm rendering...');
+
   const changeHanlder = event => {
     const { id, value } = event.target;
 

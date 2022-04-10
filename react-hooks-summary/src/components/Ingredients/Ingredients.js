@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef, useReducer } from 'react';
+import React, { useState, useEffect, useCallback, useRef, useReducer, useMemo } from 'react';
 
 import IngredientForm from './IngredientForm';
 import IngredientList from './IngredientList';
@@ -69,7 +69,7 @@ function Ingredients() {
   const isInitialRender = useRef(true);
   const searchTermRef = useRef(null);
 
-  const addIngredientHandler = async (ingredient) => {
+  const addIngredientHandler = useCallback(async (ingredient) => {
     try {
       // setIsLoading(true);
       dispatchHttpStatus({ type: HTTP_ACTIONS.SEND });
@@ -105,9 +105,9 @@ function Ingredients() {
       // setIsLoading(false);
       dispatchHttpStatus({ type: HTTP_ACTIONS.RESPONSE });
     }
-  };
+  }, []);
 
-  const removeIngredientHandler = async (id) => {
+  const removeIngredientHandler = useCallback(async (id) => {
     try {
       // setIsLoading(true);
       dispatchHttpStatus({ type: HTTP_ACTIONS.SEND });
@@ -134,7 +134,7 @@ function Ingredients() {
       // setIsLoading(false);
       dispatchHttpStatus({ type: HTTP_ACTIONS.RESPONSE });
     }
-  };
+  }, []);
 
   const getIngredients = async () => {
     try {
@@ -215,10 +215,10 @@ function Ingredients() {
     setSearchTerm(term);
   };
 
-  const closeModalHandler = () => {
+  const closeModalHandler = useCallback(() => {
     // setError(null);
     dispatchHttpStatus({ type: HTTP_ACTIONS.CLEAR });
-  }
+  }, []);
 
   /*
    * When an empty dependency array is passed as the second argument of the
@@ -255,6 +255,12 @@ function Ingredients() {
     }
   }, [searchTerm, filterIngredients]);
 
+  const ingredientListComp = useMemo(() => {
+    return (
+      <IngredientList ingredients={ ingredientLists } onRemoveIngredient={ removeIngredientHandler } />
+    );
+  }, [ingredientLists, removeIngredientHandler]);
+
   return (
     <div className="App">
       { httpStatus.error ? <ErrorModal onClose={ closeModalHandler }>{ httpStatus.error }</ErrorModal> : null }
@@ -264,7 +270,8 @@ function Ingredients() {
       <section>
         <Search forwardedRef={ searchTermRef } onSearch={ searchHandler } />
 
-        <IngredientList ingredients={ ingredientLists } onRemoveIngredient={ removeIngredientHandler } />
+        {/* <IngredientList ingredients={ ingredientLists } onRemoveIngredient={ removeIngredientHandler } /> */}
+        { ingredientListComp }
       </section>
     </div>
   );

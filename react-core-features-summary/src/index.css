@@ -19,3 +19,7 @@ h2 {
   font-size: 1.5rem;
   color: #2c292b;
 }
+
+.error {
+  color: #e74c3c;
+}

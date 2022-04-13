@@ -4,7 +4,7 @@ import Card from '../ui/Card';
 
 import styles from './MeetupForm.module.css';
 
-function MeetupForm() {
+function MeetupForm({ onAddMeetup }) {
   const titleElemRef = useRef('');
   const imageElemRef = useRef('');
   const addressElemRef = useRef('');
@@ -21,6 +21,7 @@ function MeetupForm() {
     const meetup = { title, image, address, description };
 
     console.log('New meetup: ', meetup);
+    onAddMeetup(meetup);
   };
 
   return (

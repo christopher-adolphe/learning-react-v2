@@ -7,7 +7,7 @@ import App from './App';
 ReactDOM.render(
   /*
     Using the `<BrowserRouter>` component from `react-router-dom` to
-    wrap the route `<App />` component in order to activate and unloack
+    wrap the route `<App />` component in order to activate and unlock
     the react-route features like defining routes
   */
   <BrowserRouter>

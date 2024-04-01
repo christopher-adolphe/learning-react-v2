@@ -9,11 +9,12 @@ import { fetchEvents } from '../../util/http.js';
 
 export default function FindEventSection() {
   const searchElement = useRef();
-  const [ searchTerm, setSearchTerm ] = useState('');
+  const [ searchTerm, setSearchTerm ] = useState();
 
   const { data, isPending, isError, error } = useQuery({
     queryFn: ({ signal }) => fetchEvents({ signal, searchTerm }),
     queryKey: ['events', { search: searchTerm } ],
+    enabled: searchTerm !== undefined,
   });
 
   function handleSubmit(event) {

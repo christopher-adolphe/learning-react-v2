@@ -13,8 +13,8 @@ export default function FindEventSection() {
 
   const { data, isPending, isError, error } = useQuery({
     queryFn: ({ signal }) => fetchEvents({ signal, searchTerm }),
-    queryKey: ['events', { search: searchTerm } ],
-    enabled: searchTerm !== undefined, // Instruct tanstack where or not send the request when the component mounts
+    queryKey: ['events', { searchTerm } ],
+    enabled: searchTerm !== undefined, // Instruct tanstack whether or not to send the request when the component mounts
   });
 
   function handleSubmit(event) {

@@ -57,7 +57,7 @@ export default function NewEventsSection() {
   const { data, isPending, isError, error } = useQuery({
     queryFn: fetchEvents, // Function to invoke to make http requests
     queryKey: ['events'], // Identifier(s) to cache the response data
-    staleTime: 5000, // Amount of time to wait before resend http requests
+    staleTime: 500, // Amount of time to wait before resend http requests
     // gcTime: 1000, // Amount of time to invalidate the cached response data
   });
 

@@ -1,3 +1,9 @@
+import { QueryClient } from '@tanstack/react-query';
+
+// Exporting the `queryClient` instance so that it is
+// available to other modules
+export const queryClient = new QueryClient();
+
 export async function fetchEvents({ signal, searchTerm }) {
   let url = 'http://localhost:3000/events';
 
@@ -17,6 +23,23 @@ export async function fetchEvents({ signal, searchTerm }) {
   const { events } = await response.json();
 
   return events;
+}
+
+export async function fetchEvent({ signal, id }) {
+  const response = await fetch(`http://localhost:3000/events/${id}`, { signal });
+
+  if (!response.ok) {
+    const error = new Error(`An error occurred while fetching event with id ${id}`);
+
+    error.code = response.status;
+    error.info = await response.json();
+
+    throw error;
+  }
+
+  const { event } = await response.json();
+
+  return event;
 }
 
 export async function createNewEvent(eventData) {
@@ -40,4 +63,21 @@ export async function createNewEvent(eventData) {
   const { event } = await response.json();
 
   return event;
+}
+
+export async function fetchImages({ signal }) {
+  const response = await fetch('http://localhost:3000/events/images', { signal });
+
+  if (!response.ok) {
+    const error = new Error('An error occurred while fetching images');
+
+    error.code = response.status;
+    error.info = await response.json();
+
+    throw error;
+  }
+
+  const { images } = await response.json();
+
+  return images;
 }

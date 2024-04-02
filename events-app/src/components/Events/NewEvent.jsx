@@ -5,7 +5,7 @@ import Modal from '../UI/Modal.jsx';
 import EventForm from './EventForm.jsx';
 import ErrorBlock from '../UI/ErrorBlock.jsx';
 
-import { createNewEvent } from '../../util/http.js';
+import { createNewEvent, queryClient } from '../../util/http.js';
 
 export default function NewEvent() {
   const navigate = useNavigate();
@@ -20,6 +20,17 @@ export default function NewEvent() {
   // component's logic
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: createNewEvent,
+    onSuccess: () => {
+      // Using the queryClient instance to invalidate the query
+      // keys so that they are marked as stale and instruct tanstack
+      // to refetch the data
+      queryClient.invalidateQueries({
+        queryKey: ['events'],
+      });
+
+      navigate('/events');
+    } // Using the `onSuccess` property to handle any logic that
+    // should be applied to when the mutation is successful
   })
 
   function handleSubmit(formData) {

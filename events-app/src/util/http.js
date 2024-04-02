@@ -102,9 +102,9 @@ export async function updateEvent({ id, event }) {
     throw error;
   }
 
-  const { event } = await response.json();
+  const { event: eventData } = await response.json();
 
-  return event;
+  return eventData;
 }
 
 export async function fetchImages({ signal }) {

@@ -55,7 +55,7 @@ export default function EditEvent() {
     },
 
     // Using the `onSettled` property to instruct Tanstack to refetch data from the backend to ensure
-    // that the frontend is in sync with the backend after the optimistic updated. The `onSettled()`
+    // that the frontend is in sync with the backend after the optimistic update. The `onSettled()`
     // callback is invoked whenever the mutation is completed, no matter whether it succeeded or failed
     onSettled: () => {
       queryClient.invalidateQueries({

@@ -1,4 +1,4 @@
-import Header from '@/components/Header';
+import TheHeader from '@/components/TheHeader';
 
 import './globals.css';
 
@@ -32,7 +32,7 @@ export default function RootLayout({ children }) {
           </svg>
         </div>
 
-        <Header />
+        <TheHeader />
 
         {children}
       </body>

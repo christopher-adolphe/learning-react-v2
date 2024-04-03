@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 import HeaderBackground from '@/components/HeaderBackground';
+import NavLink from '@/components/NavLink';
 
 import Logo from '@/assets/logo.png';
 
@@ -21,11 +22,11 @@ export default function TheHeader() {
         <nav className={ styles.nav }>
           <ul>
             <li>
-              <Link href="/meals">Meals</Link>
+              <NavLink href="/meals">Browse Meals</NavLink>
             </li>
 
             <li>
-              <Link href="/community">Foodies Community</Link>
+              <NavLink href="/community">Foodies Community</NavLink>
             </li>
           </ul>
         </nav>

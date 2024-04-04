@@ -32,8 +32,6 @@ export default function ImagePicker({ label, name }) {
     reader.onload = () => {
       const nextPickedImage = reader.result;
 
-      console.log('FileReader onload: ', typeof nextPickedImage);
-
       setPickedImage(nextPickedImage);
     };
 

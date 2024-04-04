@@ -1,3 +1,5 @@
+import { handleShareMeal } from '@/server-actions';
+
 import { ImagePicker } from '@/components/Meals';
 
 import styles from './page.module.css';
@@ -13,21 +15,27 @@ export default function ShareMeal() {
   // In order for Next.js to be able to identify a function
   // as server action, we need to add the `use server`
   // directive in the function's body
-  async function handleShareMeal(formData) {
-    'use server';
+  // To be albe to use server actions with client components,
+  // the server actions should be exported from a different
+  // module with the `use server` directive at top level
+  // instead of being in the function body
 
-    const { name, email, title, summary, instructions, image } = Object.fromEntries(formData);
-    const newMeal = {
-      title,
-      summary,
-      instructions,
-      image,
-      creator: name,
-      creator_email: email,
-    };
+  // async function handleShareMeal(formData) {
+  //   'use server';
 
-    console.log('newMeal: ', newMeal);
-  }
+  //   const { name, email, title, summary, instructions, image } = Object.fromEntries(formData);
+  //   const newMeal = {
+  //     title,
+  //     summary,
+  //     instructions,
+  //     image,
+  //     creator: name,
+  //     creator_email: email,
+  //   };
+
+  //   console.log('newMeal: ', newMeal);
+  // }
+
   return (
     <>
       <header className={ styles.header }>

@@ -3,6 +3,31 @@ import { ImagePicker } from '@/components/Meals';
 import styles from './page.module.css';
 
 export default function ShareMeal() {
+  // Defining a server action for Next.js to invoke
+  // when the form is submitted. A server action is
+  // always executed on the server. Behind the scenes
+  // Next.js sends a request to the server hosting our
+  // application and on that server, the server action
+  // is invoked. Server actions implicitly receive the
+  // formData object.
+  // In order for Next.js to be able to identify a function
+  // as server action, we need to add the `use server`
+  // directive in the function's body
+  async function handleShareMeal(formData) {
+    'use server';
+
+    const { name, email, title, summary, instructions, image } = Object.fromEntries(formData);
+    const newMeal = {
+      title,
+      summary,
+      instructions,
+      image,
+      creator: name,
+      creator_email: email,
+    };
+
+    console.log('newMeal: ', newMeal);
+  }
   return (
     <>
       <header className={ styles.header }>
@@ -12,7 +37,7 @@ export default function ShareMeal() {
       </header>
 
       <main className={ styles.main }>
-        <form className={ styles.form }>
+        <form className={ styles.form } action={ handleShareMeal }>
           <div className={ styles.row }>
             <p>
               <label htmlFor="name">Your name</label>
@@ -45,7 +70,7 @@ export default function ShareMeal() {
             ></textarea>
           </p>
 
-          <ImagePicker label="Meal picture" name="meal-picture" />
+          <ImagePicker label="Meal picture" name="image" />
 
           <p className={ styles.actions }>
             <button type="submit">Share Meal</button>

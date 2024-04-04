@@ -13,7 +13,7 @@ export default async function MealDetails({ params }) {
   // enter a slug that doesn't existing in the database
   // By invoking the `notFound()` function from Next, we set
   // the status code to 404 which stops the MealDetails page
-  // from rendered and instead render the nearest nof-found
+  // from rendering and instead renders the nearest not-found
   // page component
   if (!meal) {
     notFound();

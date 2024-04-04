@@ -1,5 +1,8 @@
-export default function Meal({ params }) {
+import { fetchMeal } from '@/services';
+
+export default async function Meal({ params }) {
   const { slug } = params;
+  const meal = await fetchMeal(slug);
 
   return (
     <main>

@@ -1,5 +1,9 @@
 'use server';
 
+import { redirect } from 'next/navigation';
+
+import { saveMeal } from '@/services';
+
 export async function handleShareMeal(formData) {
   const { name, email, title, summary, instructions, image } = Object.fromEntries(formData);
   const newMeal = {
@@ -11,5 +15,7 @@ export async function handleShareMeal(formData) {
     creator_email: email,
   };
 
-  console.log('newMeal: ', newMeal);
+  await saveMeal(newMeal);
+
+  redirect('/meals');
 }

@@ -1,8 +1,12 @@
+import { fetchMeals } from '@/services';
+
 import { MealItem } from '@/components/Meals';
 
 import styles from './MealsGrid.module.css';
 
-export default function MealsGrid({ meals }) {
+export default async function MealsGrid() {
+  const meals = await fetchMeals();
+
   return (
     <ul className={ styles.meals }>
       {

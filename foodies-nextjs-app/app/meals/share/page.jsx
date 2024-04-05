@@ -20,6 +20,7 @@ export default function ShareMeal() {
   // module with the `use server` directive at top level
   // instead of being in the function body
 
+  // Example of an embedded server action
   // async function handleShareMeal(formData) {
   //   'use server';
 

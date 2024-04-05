@@ -5,7 +5,7 @@ export default function NotFound() {
     <main className="not-found">
       <h1>Meal Not found</h1>
       
-      <p>Sorry, we can't find the meal you are looking for.</p>
+      <p>Sorry, we can`&apos;t find the meal you are looking for.</p>
 
       <p>
         <Link href="/meals">Browse Meals</Link>

@@ -3,27 +3,20 @@
 import { redirect } from 'next/navigation';
 
 import { saveMeal } from '@/services';
+import { revalidatePath } from 'next/cache';
 
 export async function handleShareMeal(previousState, formData) {
   const { name, email, title, summary, instructions, image } = Object.fromEntries(formData);
-  const newMeal = {
-    title,
-    summary,
-    instructions,
-    image,
-    creator: name,
-    creator_email: email,
-  };
 
   if (
-    isValueInvalid(newMeal.title) ||
-    isValueInvalid(newMeal.summary) ||
-    isValueInvalid(newMeal.instructions) ||
-    isValueInvalid(newMeal.name) ||
-    isValueInvalid(newMeal.emal) ||
-    !newMeal.emal.includes('@') ||
-    !newMeal.image ||
-    newMeal.image.size === 0
+    isValueInvalid(title) ||
+    isValueInvalid(summary) ||
+    isValueInvalid(instructions) ||
+    isValueInvalid(name) ||
+    isValueInvalid(email) ||
+    !email.includes('@') ||
+    !image ||
+    image.size === 0
   ) {
     // throw new Error('Input for new meal are invalid');
 
@@ -36,7 +29,25 @@ export async function handleShareMeal(previousState, formData) {
     };
   }
 
+  const newMeal = {
+    title,
+    summary,
+    instructions,
+    image,
+    creator: name,
+    creator_email: email,
+  };
+
   await saveMeal(newMeal);
+
+  // Using the `revalidatePath()` function from Next.js
+  // to purge the cache for a specific path so that users
+  // are able to see updated data. It takes a string as its
+  // 1st argument which represents the path we want to
+  // revalidate. A second and option argument is a string
+  // which specifies if we want to revalidate either the
+  // page or the layout
+  revalidatePath('/meals');
 
   // Using the `redirect()` function from Next.js to
   // redirect the user to another page by specifying
@@ -51,5 +62,5 @@ export async function handleShareMeal(previousState, formData) {
 }
 
 function isValueInvalid(value) {
-  return value || value.trim() === ''; 
+  return !value || value.trim() === ''; 
 }

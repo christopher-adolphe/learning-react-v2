@@ -7,7 +7,7 @@ export default function NotFound() {
 
       <p>It looks like you got lost...</p>
       
-      <p>We can't find the page you are looking for.</p>
+      <p>We can&apos;t find the page you are looking for.</p>
 
       <p>
         <Link href="/">Back To Home</Link>

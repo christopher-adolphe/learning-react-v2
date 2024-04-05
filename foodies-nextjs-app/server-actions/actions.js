@@ -15,6 +15,19 @@ export async function handleShareMeal(formData) {
     creator_email: email,
   };
 
+  if (
+    isValueInvalid(newMeal.title) ||
+    isValueInvalid(newMeal.summary) ||
+    isValueInvalid(newMeal.instructions) ||
+    isValueInvalid(newMeal.name) ||
+    isValueInvalid(newMeal.emal) ||
+    !newMeal.emal.includes('@') ||
+    !newMeal.image ||
+    newMeal.image.size === 0
+  ) {
+    throw new Error('Input for new meal are invalid');
+  }
+
   await saveMeal(newMeal);
 
   // Using the `redirect()` function from Next.js to
@@ -27,4 +40,8 @@ export async function handleShareMeal(formData) {
   // work as control will move to the `catch` block
   // because of the 303 error being thrown
   redirect('/meals');
+}
+
+function isValueInvalid(value) {
+  return value || value.trim() === ''; 
 }

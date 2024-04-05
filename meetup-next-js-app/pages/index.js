@@ -30,7 +30,7 @@ const MOCK_MEETUPS = [
   }
 ];
 
-function Home({ meetups } ) {
+function Home({ meetups }) {
   // const [ meetups, setMeetups ] = useState([]);
 
   // useEffect(() => {

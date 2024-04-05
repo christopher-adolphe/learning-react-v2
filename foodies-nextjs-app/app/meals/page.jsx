@@ -5,6 +5,11 @@ import MealsGrid from '@/components/Meals';
 
 import styles from './page.module.css';
 
+export const metadata = {
+  title: 'All Meals',
+  description: 'Browse the delicious meals shared by our vibrant community.',
+};
+
 export default function Meals() {
   return (
     <>

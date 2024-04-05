@@ -5,6 +5,20 @@ import { fetchMeal } from '@/services';
 
 import styles from './page.module.css';
 
+export async function generateMetadata({ params }) {
+  const { slug } = params;
+  const meal = await fetchMeal(slug);
+
+  if (!meal) {
+    notFound();
+  }
+
+  return {
+    title: meal.title,
+    description: meal.summary,
+  };
+}
+
 export default async function MealDetails({ params }) {
   const { slug } = params;
   const meal = await fetchMeal(slug);

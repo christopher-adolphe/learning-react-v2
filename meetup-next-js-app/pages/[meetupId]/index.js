@@ -52,7 +52,7 @@ function MeetupDetail({ meetup }) {
 /*
   When a page has dynamic routes and uses `getStaticProps()`,
   it needs to define a list of paths to be statically generated.
-  It returns an object with a `path` property whihc is an array
+  It returns an object with a `path` property which is an array
   of `params` of each value that we can have for the dynamic
   route. The returned object also has a `fallback` property which
   is a boolean. If the `fallback` property is set to false then

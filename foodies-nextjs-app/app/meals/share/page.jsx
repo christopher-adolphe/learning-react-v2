@@ -1,3 +1,7 @@
+'use client';
+
+import { useFormState } from 'react-dom';
+
 import { handleShareMeal } from '@/server-actions';
 
 import { ImagePicker, MealSubmitButton } from '@/components/Meals';
@@ -37,6 +41,15 @@ export default function ShareMeal() {
   //   console.log('newMeal: ', newMeal);
   // }
 
+  // Using the `useFormState()` hook from `react-dom` to
+  // get the response from the server action. It takes the
+  // form action function as its first argument and an initial
+  // value for the response as its second argument
+  // The hook returns an array where its first member is the
+  // server action response and its second member is server
+  // action itself
+  const [ state, formAction ] = useFormState(handleShareMeal, { message: null });
+
   return (
     <>
       <header className={ styles.header }>
@@ -46,7 +59,7 @@ export default function ShareMeal() {
       </header>
 
       <main className={ styles.main }>
-        <form className={ styles.form } action={ handleShareMeal }>
+        <form className={ styles.form } action={ formAction }>
           <div className={ styles.row }>
             <p>
               <label htmlFor="name">Your name</label>
@@ -80,6 +93,14 @@ export default function ShareMeal() {
           </p>
 
           <ImagePicker label="Meal picture" name="image" />
+
+          {
+            state.message && (
+              <div className={ styles.error }>
+                <p>{ state.message }</p>
+              </div>
+            )
+          }
 
           <p className={ styles.actions }>
             <MealSubmitButton />

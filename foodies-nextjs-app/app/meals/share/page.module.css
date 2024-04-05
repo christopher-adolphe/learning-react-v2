@@ -58,6 +58,11 @@
   background-color: #1f252d;
 }
 
+.form .error {
+  padding: 1rem;
+  border: 1px solid #e74c3c
+}
+
 .row {
   display: flex;
   gap: 1rem;

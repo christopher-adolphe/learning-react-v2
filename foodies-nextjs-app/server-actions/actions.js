@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation';
 
 import { saveMeal } from '@/services';
 
-export async function handleShareMeal(formData) {
+export async function handleShareMeal(previousState, formData) {
   const { name, email, title, summary, instructions, image } = Object.fromEntries(formData);
   const newMeal = {
     title,
@@ -25,7 +25,15 @@ export async function handleShareMeal(formData) {
     !newMeal.image ||
     newMeal.image.size === 0
   ) {
-    throw new Error('Input for new meal are invalid');
+    // throw new Error('Input for new meal are invalid');
+
+    // A more elegant feedback for input validation is
+    // return a response from the server action that can
+    // then be used on the client-side with the help of
+    // the `useFormState()` hook
+    return {
+      message: 'Input for new meal are invalid',
+    };
   }
 
   await saveMeal(newMeal);
